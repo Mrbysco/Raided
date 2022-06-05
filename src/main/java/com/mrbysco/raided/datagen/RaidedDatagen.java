@@ -48,6 +48,7 @@ public class RaidedDatagen {
 		if (event.includeClient()) {
 			generator.addProvider(new Language(generator));
 			generator.addProvider(new ItemModels(generator, helper));
+			generator.addProvider(new SoundProvider(generator, helper));
 		}
 	}
 
@@ -69,6 +70,7 @@ public class RaidedDatagen {
 			protected void addTables() {
 				this.add(RaidedRegistry.INQUISITOR.get(), LootTable.lootTable());
 				this.add(RaidedRegistry.INCINERATOR.get(), LootTable.lootTable());
+				this.add(RaidedRegistry.SAVAGER.get(), LootTable.lootTable());
 			}
 
 			@Override
@@ -93,9 +95,15 @@ public class RaidedDatagen {
 		protected void addTranslations() {
 			addEntityType(RaidedRegistry.INQUISITOR, "Inquisitor");
 			addEntityType(RaidedRegistry.INCINERATOR, "Incinerator");
+			addEntityType(RaidedRegistry.SAVAGER, "Savager");
 
 			addItem(RaidedRegistry.INQUISITOR_SPAWN_EGG, "Inquisitor Spawn Egg");
 			addItem(RaidedRegistry.INCINERATOR_SPAWN_EGG, "Incinerator Spawn Egg");
+			addItem(RaidedRegistry.SAVAGER_SPAWN_EGG, "Savager Spawn Egg");
+
+			addSubtitle(RaidedRegistry.INQUISITOR_CELEBRATE, "Inquisitor Celebrating");
+			addSubtitle(RaidedRegistry.INCINERATOR_CELEBRATE, "Incinerator Celebrating");
+			addSubtitle(RaidedRegistry.SAVAGER_CELEBRATE, "Savager Celebrating");
 		}
 
 		public void addSubtitle(RegistryObject<SoundEvent> sound, String name) {
@@ -111,11 +119,26 @@ public class RaidedDatagen {
 
 		@Override
 		public void registerSounds() {
-
+			this.add(RaidedRegistry.INQUISITOR_CELEBRATE, definition()
+					.with(sound(modLoc("empty")))
+					.subtitle(modSubtitle(RaidedRegistry.INQUISITOR_CELEBRATE.getId()))
+			);
+			this.add(RaidedRegistry.INCINERATOR_CELEBRATE, definition()
+					.with(sound(modLoc("empty")))
+					.subtitle(modSubtitle(RaidedRegistry.INCINERATOR_CELEBRATE.getId()))
+			);
+			this.add(RaidedRegistry.SAVAGER_CELEBRATE, definition()
+					.with(sound(modLoc("empty")))
+					.subtitle(modSubtitle(RaidedRegistry.SAVAGER_CELEBRATE.getId()))
+			);
 		}
 
 		public ResourceLocation modLoc(String name) {
 			return new ResourceLocation(Raided.MOD_ID, name);
+		}
+
+		public String modSubtitle(ResourceLocation id) {
+			return Raided.MOD_ID + ".subtitle." + id.getPath();
 		}
 	}
 

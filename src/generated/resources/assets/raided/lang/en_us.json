@@ -1,6 +1,11 @@
 {
   "entity.raided.incinerator": "Incinerator",
   "entity.raided.inquisitor": "Inquisitor",
+  "entity.raided.savager": "Savager",
   "item.raided.incinerator_spawn_egg": "Incinerator Spawn Egg",
-  "item.raided.inquisitor_spawn_egg": "Inquisitor Spawn Egg"
+  "item.raided.inquisitor_spawn_egg": "Inquisitor Spawn Egg",
+  "item.raided.savager_spawn_egg": "Savager Spawn Egg",
+  "raided.subtitle.entity.incinerator.celebrate": "Incinerator Celebrating",
+  "raided.subtitle.entity.inquisitor.celebrate": "Inquisitor Celebrating",
+  "raided.subtitle.entity.savager.celebrate": "Savager Celebrating"
 }

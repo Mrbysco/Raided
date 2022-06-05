@@ -3,6 +3,7 @@ package com.mrbysco.raided.registry;
 import com.mrbysco.raided.Raided;
 import com.mrbysco.raided.entity.Incinerator;
 import com.mrbysco.raided.entity.Inquisitor;
+import com.mrbysco.raided.entity.Savager;
 import com.mrbysco.raided.entity.projectiles.IncineratorFireball;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -34,14 +35,21 @@ public class RaidedRegistry {
 					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
 					.setCustomClientFactory(IncineratorFireball::new)));
 
+	public static final RegistryObject<EntityType<Savager>> SAVAGER = ENTITIES.register("savager",
+			() -> register("savager", EntityType.Builder.<Savager>of(Savager::new, MobCategory.MONSTER)
+					.sized(0.6F, 0.85F).clientTrackingRange(10)));
+
 
 	public static final RegistryObject<SoundEvent> INQUISITOR_CELEBRATE = SOUND_EVENTS.register("entity.inquisitor.celebrate", () ->
 			new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.inquisitor.celebrate")));
 	public static final RegistryObject<SoundEvent> INCINERATOR_CELEBRATE = SOUND_EVENTS.register("entity.incinerator.celebrate", () ->
 			new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.inquisitor.incinerator")));
+	public static final RegistryObject<SoundEvent> SAVAGER_CELEBRATE = SOUND_EVENTS.register("entity.savager.celebrate", () ->
+			new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.savager.incinerator")));
 
 	public static final RegistryObject<Item> INQUISITOR_SPAWN_EGG = ITEMS.register("inquisitor_spawn_egg", () -> new ForgeSpawnEggItem(INQUISITOR::get, 0x959b9b, 0x3f3b37, itemBuilder()));
 	public static final RegistryObject<Item> INCINERATOR_SPAWN_EGG = ITEMS.register("incinerator_spawn_egg", () -> new ForgeSpawnEggItem(INCINERATOR::get, 0x959b9b, 0x3f3b37, itemBuilder()));
+	public static final RegistryObject<Item> SAVAGER_SPAWN_EGG = ITEMS.register("savager_spawn_egg", () -> new ForgeSpawnEggItem(SAVAGER::get, 0x959b9b, 0x3f3b37, itemBuilder()));
 
 	private static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
 		return builder.build(id);

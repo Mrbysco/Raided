@@ -1,0 +1,20 @@
+{
+  "entity.inquisitor.celebrate": {
+    "subtitle": "raided.subtitle.entity.inquisitor.celebrate",
+    "sounds": [
+      "raided:empty"
+    ]
+  },
+  "entity.inquisitor.incinerator": {
+    "subtitle": "raided.subtitle.entity.incinerator.celebrate",
+    "sounds": [
+      "raided:empty"
+    ]
+  },
+  "entity.savager.incinerator": {
+    "subtitle": "raided.subtitle.entity.savager.celebrate",
+    "sounds": [
+      "raided:empty"
+    ]
+  }
+}

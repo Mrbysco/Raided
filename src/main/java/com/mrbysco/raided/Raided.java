@@ -21,6 +21,7 @@ public class Raided {
 
         RaidedRegistry.ITEMS.register(eventBus);
         RaidedRegistry.ENTITIES.register(eventBus);
+        RaidedRegistry.SOUND_EVENTS.register(eventBus);
 
         eventBus.addListener(RaidedSetup::registerEntityAttributes);
 
