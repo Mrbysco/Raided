@@ -44,14 +44,14 @@ public class IncineratorFireball extends SmallFireball {
 		if (!this.level.isClientSide) {
 			Entity entity = entityHitResult.getEntity();
 			if (!(entity instanceof Raider) && !entity.fireImmune()) {
-				Entity entity1 = this.getOwner();
+				Entity owner = this.getOwner();
 				int i = entity.getRemainingFireTicks();
 				entity.setSecondsOnFire(4);
-				boolean flag = entity.hurt(DamageSource.fireball(this, entity1), 5.0F);
+				boolean flag = entity.hurt(DamageSource.fireball(this, owner), 5.0F);
 				if (!flag) {
 					entity.setRemainingFireTicks(i);
-				} else if (entity1 instanceof LivingEntity) {
-					this.doEnchantDamageEffects((LivingEntity)entity1, entity);
+				} else if (owner instanceof LivingEntity) {
+					this.doEnchantDamageEffects((LivingEntity) owner, entity);
 				}
 			}
 		}
@@ -59,7 +59,6 @@ public class IncineratorFireball extends SmallFireball {
 
 	@Override
 	protected void onHitBlock(BlockHitResult blockHitResult) {
-		return;
 	}
 
 	@Override
