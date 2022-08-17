@@ -55,9 +55,7 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 		this.tankRope2 = tankRope1.getChild("tank_rope2");
 
 		this.blazeSticks = new ModelPart[4];
-		Arrays.setAll(this.blazeSticks, (index) -> {
-			return tank.getChild(getStickName(index));
-		});
+		Arrays.setAll(this.blazeSticks, (index) -> tank.getChild(getStickName(index)));
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -119,7 +117,7 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 		CubeListBuilder stickCube = CubeListBuilder.create()
 				.texOffs(158, 16).addBox(-1.0F, -4.0F, 6.0F, 2.0F, 8.0F, 2.0F);
 
-		for(int i = 0; i < STICK_COUNT; ++i) {
+		for (int i = 0; i < STICK_COUNT; ++i) {
 			tank.addOrReplaceChild(getStickName(i), stickCube, PartPose.offset(0, 0, 8));
 		}
 
@@ -161,7 +159,7 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 			tankRope2.yRot = degToRad(90);
 		}
 
-		if(entityIn.isThrowing()) {
+		if (entityIn.isThrowing()) {
 			animationThrow();
 		}
 
@@ -174,10 +172,10 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 		rightLeg.zRot = 0.0F;
 
 		// blaze
-		float f = ageInTicks * (float)Math.PI * -0.1F;
+		float f = ageInTicks * (float) Math.PI * -0.1F;
 
 		for (int i = 0; i < 4; ++i) {
-			blazeSticks[i].y = 2.0F + Mth.cos(((float)(i * 2) + ageInTicks) * 0.25F);
+			blazeSticks[i].y = 2.0F + Mth.cos(((float) (i * 2) + ageInTicks) * 0.25F);
 			blazeSticks[i].x = Mth.cos(f) * 6.0F;
 			blazeSticks[i].z = Mth.sin(f) * 6.0F;
 			++f;

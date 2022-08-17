@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -30,9 +31,8 @@ import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class Savager extends Raider {
-	private static final Predicate<TamableAnimal> IS_TAMED = (tamableAnimal) -> {
-		return tamableAnimal.isAlive() && !(tamableAnimal.getOwner() instanceof Raider);
-	};
+	private static final Predicate<LivingEntity> IS_TAMED = (livingEntity) -> livingEntity instanceof TamableAnimal tamableAnimal &&
+			tamableAnimal.isAlive() && !(tamableAnimal.getOwner() instanceof Raider);
 
 	public Savager(EntityType<? extends Raider> entityType, Level level) {
 		super(entityType, level);
@@ -49,12 +49,8 @@ public class Savager extends Raider {
 		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
 		this.targetSelector.addGoal(1, new RaiderHurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
-		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, TamableAnimal.class, true, (livingEntity) -> {
-			return livingEntity.isAlive() && !(((TamableAnimal)livingEntity).getOwner() instanceof Raider);
-		}));
-		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true, (livingEntity) -> {
-			return !livingEntity.isBaby();
-		}));
+		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, TamableAnimal.class, true, IS_TAMED));
+		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true, (livingEntity) -> !livingEntity.isBaby()));
 		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 
