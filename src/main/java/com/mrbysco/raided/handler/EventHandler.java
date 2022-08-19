@@ -18,16 +18,11 @@ public class EventHandler {
 		if (!level.isClientSide && event.getEntity() instanceof Raider raider && raider.getType() != RaidedRegistry.NECROMANCER.getEntityType()) {
 			List<Necromancer> necromancers = level.getNearbyEntities(Necromancer.class, TargetingConditions.forNonCombat(), raider,
 					raider.getBoundingBox().inflate(10.0D, 8.0D, 10.0D));
-			necromancers.removeIf(necromancer -> necromancer.getCurrentRaid() != null && raider.getCurrentRaid() != null &&
+			necromancers.removeIf(necromancer -> necromancer.canHeal() && necromancer.getCurrentRaid() != null && raider.getCurrentRaid() != null &&
 					raider.getCurrentRaid().getId() == necromancer.getCurrentRaid().getId());
 			if (!necromancers.isEmpty()) {
-				for (Necromancer necromancer : necromancers) {
-					if (necromancer.canHeal()) {
-						necromancer.healMember(raider);
-						event.setCanceled(true);
-						break;
-					}
-				}
+				necromancers.get(0).healMember(raider);
+				event.setCanceled(true);
 			}
 		}
 	}
