@@ -89,7 +89,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Monster.createMonsterAttributes()
-				.add(Attributes.MOVEMENT_SPEED, (double)0.275F)
+				.add(Attributes.MOVEMENT_SPEED, (double) 0.275F)
 				.add(Attributes.MAX_HEALTH, 30.0D)
 				.add(Attributes.ATTACK_DAMAGE, 3.0D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
@@ -156,7 +156,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity)entity).getMobType() == MobType.ILLAGER) {
+		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getMobType() == MobType.ILLAGER) {
 			return this.getTeam() == null && entity.getTeam() == null;
 		} else {
 			return false;
@@ -187,16 +187,32 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean p_37845_) {
-		ItemStack itemstack = new ItemStack(Items.SHIELD);
-		if(random.nextFloat() < 0.25F) {
-			this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
+	public void applyRaidBuffs(int wave, boolean unused) {
+		if (random.nextFloat() < 0.25F) {
+			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD));
 		}
 	}
 
 	@Override
+	public boolean canBeLeader() {
+		return false;
+	}
+
+	protected SoundEvent getAmbientSound() {
+		return RaidedRegistry.INCINERATOR.getAmbient();
+	}
+
+	protected SoundEvent getDeathSound() {
+		return RaidedRegistry.INCINERATOR.getDeath();
+	}
+
+	protected SoundEvent getHurtSound(DamageSource p_33306_) {
+		return RaidedRegistry.INCINERATOR.getHurt();
+	}
+
+	@Override
 	public SoundEvent getCelebrateSound() {
-		return RaidedRegistry.INQUISITOR_CELEBRATE.get();
+		return RaidedRegistry.INCINERATOR.getCelebrate();
 	}
 
 	@Nullable

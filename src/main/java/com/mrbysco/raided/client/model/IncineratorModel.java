@@ -233,10 +233,6 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 		return arm == HumanoidArm.LEFT ? this.leftArm : this.rightArm;
 	}
 
-	public ModelPart getHat() {
-		return this.hat;
-	}
-
 	public ModelPart getHead() {
 		return this.head;
 	}

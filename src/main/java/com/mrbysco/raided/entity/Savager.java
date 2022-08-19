@@ -5,6 +5,7 @@ import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -71,7 +72,7 @@ public class Savager extends Raider {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean p_37845_) {
+	public void applyRaidBuffs(int wave, boolean unused) {
 
 	}
 
@@ -90,8 +91,20 @@ public class Savager extends Raider {
 		return false;
 	}
 
+	protected SoundEvent getAmbientSound() {
+		return RaidedRegistry.SAVAGER.getAmbient();
+	}
+
+	protected SoundEvent getDeathSound() {
+		return RaidedRegistry.SAVAGER.getDeath();
+	}
+
+	protected SoundEvent getHurtSound(DamageSource p_33306_) {
+		return RaidedRegistry.SAVAGER.getHurt();
+	}
+
 	@Override
 	public SoundEvent getCelebrateSound() {
-		return RaidedRegistry.SAVAGER_CELEBRATE.get();
+		return RaidedRegistry.SAVAGER.getCelebrate();
 	}
 }

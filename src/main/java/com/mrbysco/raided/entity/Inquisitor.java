@@ -47,7 +47,6 @@ public class Inquisitor extends AbstractIllager {
 
 	public Inquisitor(EntityType<? extends AbstractIllager> entityType, Level level) {
 		super(entityType, level);
-		this.maxUpStep = 1.0F;
 	}
 
 	@Override
@@ -82,7 +81,7 @@ public class Inquisitor extends AbstractIllager {
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Monster.createMonsterAttributes()
-				.add(Attributes.MOVEMENT_SPEED, (double)0.25F)
+				.add(Attributes.MOVEMENT_SPEED, (double) 0.25F)
 				.add(Attributes.FOLLOW_RANGE, 32.0D)
 				.add(Attributes.MAX_HEALTH, 20.0D)
 				.add(Attributes.ATTACK_DAMAGE, 2.0D);
@@ -101,7 +100,7 @@ public class Inquisitor extends AbstractIllager {
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity)entity).getMobType() == MobType.ILLAGER) {
+		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getMobType() == MobType.ILLAGER) {
 			return this.getTeam() == null && entity.getTeam() == null;
 		} else {
 			return false;
@@ -132,23 +131,39 @@ public class Inquisitor extends AbstractIllager {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean p_37845_) {
-		ItemStack itemstack = new ItemStack(Items.SHIELD);
-		if(random.nextFloat() < 0.25F) {
-			this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
+	public void applyRaidBuffs(int wave, boolean unused) {
+		if (random.nextFloat() < 0.25F) {
+			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD));
 		}
 	}
 
 	@Override
+	public boolean canBeLeader() {
+		return false;
+	}
+
+	protected SoundEvent getAmbientSound() {
+		return RaidedRegistry.INQUISITOR.getAmbient();
+	}
+
+	protected SoundEvent getDeathSound() {
+		return RaidedRegistry.INQUISITOR.getDeath();
+	}
+
+	protected SoundEvent getHurtSound(DamageSource p_33306_) {
+		return RaidedRegistry.INQUISITOR.getHurt();
+	}
+
+	@Override
 	public SoundEvent getCelebrateSound() {
-		return RaidedRegistry.INQUISITOR_CELEBRATE.get();
+		return RaidedRegistry.INQUISITOR.getCelebrate();
 	}
 
 	@Nullable
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
 										@Nullable SpawnGroupData groupData, @Nullable CompoundTag tag) {
 		SpawnGroupData spawngroupdata = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData, tag);
-		((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
+		((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);
 
 		this.setInquisitorType(random.nextInt(3) + 1);
 
@@ -167,7 +182,7 @@ public class Inquisitor extends AbstractIllager {
 		protected double getAttackReachSqr(LivingEntity livingEntity) {
 			if (this.mob.getVehicle() instanceof Ravager) {
 				float f = this.mob.getVehicle().getBbWidth() - 0.1F;
-				return (double)(f * 2.0F * f * 2.0F + livingEntity.getBbWidth());
+				return (double) (f * 2.0F * f * 2.0F + livingEntity.getBbWidth());
 			} else {
 				return super.getAttackReachSqr(livingEntity);
 			}

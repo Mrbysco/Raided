@@ -3,6 +3,7 @@ package com.mrbysco.raided.datagen;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import com.mrbysco.raided.Raided;
+import com.mrbysco.raided.registry.RaidRegHelper;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.EntityLoot;
@@ -68,9 +69,11 @@ public class RaidedDatagen {
 
 			@Override
 			protected void addTables() {
-				this.add(RaidedRegistry.INQUISITOR.get(), LootTable.lootTable());
-				this.add(RaidedRegistry.INCINERATOR.get(), LootTable.lootTable());
-				this.add(RaidedRegistry.SAVAGER.get(), LootTable.lootTable());
+				this.add(RaidedRegistry.INQUISITOR.getEntityType(), LootTable.lootTable());
+				this.add(RaidedRegistry.INCINERATOR.getEntityType(), LootTable.lootTable());
+				this.add(RaidedRegistry.SAVAGER.getEntityType(), LootTable.lootTable());
+				this.add(RaidedRegistry.NECROMANCER.getEntityType(), LootTable.lootTable());
+				this.add(RaidedRegistry.ELECTROMANCER.getEntityType(), LootTable.lootTable());
 			}
 
 			@Override
@@ -93,48 +96,88 @@ public class RaidedDatagen {
 
 		@Override
 		protected void addTranslations() {
-			addEntityType(RaidedRegistry.INQUISITOR, "Inquisitor");
-			addEntityType(RaidedRegistry.INCINERATOR, "Incinerator");
-			addEntityType(RaidedRegistry.SAVAGER, "Savager");
+			addHelper(RaidedRegistry.INQUISITOR, "Inquisitor");
+			addHelper(RaidedRegistry.INCINERATOR, "Incinerator");
+			addHelper(RaidedRegistry.SAVAGER, "Savager");
+			addHelper(RaidedRegistry.NECROMANCER, "Necromancer");
+			addHelper(RaidedRegistry.ELECTROMANCER, "Electromancer");
 
-			addItem(RaidedRegistry.INQUISITOR_SPAWN_EGG, "Inquisitor Spawn Egg");
-			addItem(RaidedRegistry.INCINERATOR_SPAWN_EGG, "Incinerator Spawn Egg");
-			addItem(RaidedRegistry.SAVAGER_SPAWN_EGG, "Savager Spawn Egg");
-
-			addSubtitle(RaidedRegistry.INQUISITOR_CELEBRATE, "Inquisitor Celebrating");
-			addSubtitle(RaidedRegistry.INCINERATOR_CELEBRATE, "Incinerator Celebrating");
-			addSubtitle(RaidedRegistry.SAVAGER_CELEBRATE, "Savager Celebrating");
+			addSubtitle(RaidedRegistry.ELECROMANCER_PREPARE_CONVERSION.get(), "Electromancer prepares conversion");
 		}
 
-		public void addSubtitle(RegistryObject<SoundEvent> sound, String name) {
-			String path = Raided.MOD_ID + ".subtitle." + sound.getId().getPath();
+		private void addHelper(RaidRegHelper helper, String name) {
+			add(helper.getEntityType(), "Inquisitor");
+			addItem(helper.getSpawnEgg(), name + " Spawn Egg");
+			addSubtitle(helper.getAmbient(), name + " mutters");
+			addSubtitle(helper.getDeath(), name + " dies");
+			addSubtitle(helper.getHurt(), name + " hurts");
+			addSubtitle(helper.getCelebrate(), name + " cheers");
+			if (helper.getCasting() != null)
+				addSubtitle(helper.getCasting(), name + " casts spell");
+		}
+
+		public void addSubtitle(SoundEvent sound, String name) {
+			String path = Raided.MOD_ID + ".subtitle." + sound.getLocation().getPath();
 			this.add(path, name);
 		}
 	}
 
-	private static class SoundProvider extends SoundDefinitionsProvider{
+	private static class SoundProvider extends SoundDefinitionsProvider {
 		public SoundProvider(DataGenerator generator, ExistingFileHelper helper) {
 			super(generator, Raided.MOD_ID, helper);
 		}
 
 		@Override
 		public void registerSounds() {
-			this.add(RaidedRegistry.INQUISITOR_CELEBRATE, definition()
-					.with(sound(modLoc("empty")))
-					.subtitle(modSubtitle(RaidedRegistry.INQUISITOR_CELEBRATE.getId()))
-			);
-			this.add(RaidedRegistry.INCINERATOR_CELEBRATE, definition()
-					.with(sound(modLoc("empty")))
-					.subtitle(modSubtitle(RaidedRegistry.INCINERATOR_CELEBRATE.getId()))
-			);
-			this.add(RaidedRegistry.SAVAGER_CELEBRATE, definition()
-					.with(sound(modLoc("empty")))
-					.subtitle(modSubtitle(RaidedRegistry.SAVAGER_CELEBRATE.getId()))
+			addHelper(RaidedRegistry.INQUISITOR);
+			addHelper(RaidedRegistry.INCINERATOR);
+			addHelper(RaidedRegistry.SAVAGER);
+			addHelper(RaidedRegistry.NECROMANCER);
+			addHelper(RaidedRegistry.ELECTROMANCER);
+
+			this.add(RaidedRegistry.ELECROMANCER_PREPARE_CONVERSION.get(), definition()
+					.with(
+							sound(new ResourceLocation("mob/evocation_illager/prepare_wololo")))
+					.subtitle(modSubtitle(RaidedRegistry.ELECROMANCER_PREPARE_CONVERSION.getId()))
 			);
 		}
 
-		public ResourceLocation modLoc(String name) {
-			return new ResourceLocation(Raided.MOD_ID, name);
+		private void addHelper(RaidRegHelper helper) {
+			this.add(helper.getAmbient(), definition()
+					.with(
+							sound(new ResourceLocation("mob/evocation_illager/idle1")),
+							sound(new ResourceLocation("mob/evocation_illager/idle2")),
+							sound(new ResourceLocation("mob/evocation_illager/idle3")),
+							sound(new ResourceLocation("mob/evocation_illager/idle4")))
+					.subtitle(modSubtitle(helper.getAmbient().getLocation()))
+			);
+			this.add(helper.getDeath(), definition()
+					.with(
+							sound(new ResourceLocation("mob/evocation_illager/death1")),
+							sound(new ResourceLocation("mob/evocation_illager/death2")))
+					.subtitle(modSubtitle(helper.getDeath().getLocation()))
+			);
+			this.add(helper.getHurt(), definition()
+					.with(
+							sound(new ResourceLocation("mob/evocation_illager/hurt1")),
+							sound(new ResourceLocation("mob/evocation_illager/hurt2")))
+					.subtitle(modSubtitle(helper.getDeath().getLocation()))
+			);
+			this.add(helper.getCelebrate(), definition()
+					.with(
+							sound(new ResourceLocation("mob/evocation_illager/celebrate")),
+							sound(new ResourceLocation("mob/evocation_illager/idle1")),
+							sound(new ResourceLocation("mob/evocation_illager/idle2")))
+					.subtitle(modSubtitle(helper.getCelebrate().getLocation()))
+			);
+			if (helper.getCasting() != null) {
+				this.add(helper.getCasting(), definition()
+						.with(
+								sound(new ResourceLocation("mob/evocation_illager/cast1")),
+								sound(new ResourceLocation("mob/evocation_illager/cast2")))
+						.subtitle(modSubtitle(helper.getCasting().getLocation()))
+				);
+			}
 		}
 
 		public String modSubtitle(ResourceLocation id) {
@@ -149,8 +192,8 @@ public class RaidedDatagen {
 
 		@Override
 		protected void registerModels() {
-			for(RegistryObject<Item> item : RaidedRegistry.ITEMS.getEntries()) {
-				if(item.get() instanceof SpawnEggItem) {
+			for (RegistryObject<Item> item : RaidedRegistry.ITEMS.getEntries()) {
+				if (item.get() instanceof SpawnEggItem) {
 					withExistingParent(item.get().getRegistryName().getPath(), new ResourceLocation("item/template_spawn_egg"));
 				}
 			}

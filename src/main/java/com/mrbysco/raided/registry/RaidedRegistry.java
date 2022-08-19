@@ -1,8 +1,10 @@
 package com.mrbysco.raided.registry;
 
 import com.mrbysco.raided.Raided;
+import com.mrbysco.raided.entity.Electromancer;
 import com.mrbysco.raided.entity.Incinerator;
 import com.mrbysco.raided.entity.Inquisitor;
+import com.mrbysco.raided.entity.Necromancer;
 import com.mrbysco.raided.entity.Savager;
 import com.mrbysco.raided.entity.projectiles.IncineratorFireball;
 import net.minecraft.resources.ResourceLocation;
@@ -10,9 +12,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -22,40 +22,34 @@ public class RaidedRegistry {
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Raided.MOD_ID);
 	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Raided.MOD_ID);
 
-	public static final RegistryObject<EntityType<Inquisitor>> INQUISITOR = ENTITIES.register("inquisitor",
-			() -> register("inquisitor", EntityType.Builder.<Inquisitor>of(Inquisitor::new, MobCategory.MONSTER)
-					.sized(0.6F, 1.95F).clientTrackingRange(8)));
+	public static final RaidRegHelper<Inquisitor> INQUISITOR = new RaidRegHelper("inquisitor",
+			EntityType.Builder.<Inquisitor>of(Inquisitor::new, MobCategory.MONSTER)
+					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37);
 
-	public static final RegistryObject<EntityType<Incinerator>> INCINERATOR = ENTITIES.register("incinerator",
-			() -> register("incinerator", EntityType.Builder.<Incinerator>of(Incinerator::new, MobCategory.MONSTER)
-					.sized(1.4F, 2.2F).fireImmune().clientTrackingRange(8)));
+	public static final RaidRegHelper<Incinerator> INCINERATOR = new RaidRegHelper("incinerator",
+			EntityType.Builder.<Incinerator>of(Incinerator::new, MobCategory.MONSTER)
+					.sized(1.4F, 2.2F).fireImmune().clientTrackingRange(8), 0x959b9b, 0x3f3b37);
 
 	public static final RegistryObject<EntityType<IncineratorFireball>> INCINERATOR_FIREBALL = ENTITIES.register("incinerator_fireball",
 			() -> register("incinerator_fireball", EntityType.Builder.<IncineratorFireball>of(IncineratorFireball::new, MobCategory.MISC)
 					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
 					.setCustomClientFactory(IncineratorFireball::new)));
 
-	public static final RegistryObject<EntityType<Savager>> SAVAGER = ENTITIES.register("savager",
-			() -> register("savager", EntityType.Builder.<Savager>of(Savager::new, MobCategory.MONSTER)
-					.sized(0.6F, 0.85F).clientTrackingRange(10)));
+	public static final RaidRegHelper<Savager> SAVAGER = new RaidRegHelper("savager",
+			EntityType.Builder.<Savager>of(Savager::new, MobCategory.MONSTER)
+					.sized(0.6F, 0.85F).clientTrackingRange(10), 0x959b9b, 0x3f3b37);
 
+	public static final RaidRegHelper<Necromancer> NECROMANCER = new RaidRegHelper("necromancer",
+			EntityType.Builder.<Necromancer>of(Necromancer::new, MobCategory.MONSTER)
+					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37);
 
-	public static final RegistryObject<SoundEvent> INQUISITOR_CELEBRATE = SOUND_EVENTS.register("entity.inquisitor.celebrate", () ->
-			new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.inquisitor.celebrate")));
-	public static final RegistryObject<SoundEvent> INCINERATOR_CELEBRATE = SOUND_EVENTS.register("entity.incinerator.celebrate", () ->
-			new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.inquisitor.incinerator")));
-	public static final RegistryObject<SoundEvent> SAVAGER_CELEBRATE = SOUND_EVENTS.register("entity.savager.celebrate", () ->
-			new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.savager.incinerator")));
+	public static final RaidRegHelper<Electromancer> ELECTROMANCER = new RaidRegHelper("electromancer",
+			EntityType.Builder.<Electromancer>of(Electromancer::new, MobCategory.MONSTER)
+					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37);
 
-	public static final RegistryObject<Item> INQUISITOR_SPAWN_EGG = ITEMS.register("inquisitor_spawn_egg", () -> new ForgeSpawnEggItem(INQUISITOR::get, 0x959b9b, 0x3f3b37, itemBuilder()));
-	public static final RegistryObject<Item> INCINERATOR_SPAWN_EGG = ITEMS.register("incinerator_spawn_egg", () -> new ForgeSpawnEggItem(INCINERATOR::get, 0x959b9b, 0x3f3b37, itemBuilder()));
-	public static final RegistryObject<Item> SAVAGER_SPAWN_EGG = ITEMS.register("savager_spawn_egg", () -> new ForgeSpawnEggItem(SAVAGER::get, 0x959b9b, 0x3f3b37, itemBuilder()));
+	public static final RegistryObject<SoundEvent> ELECROMANCER_PREPARE_CONVERSION = SOUND_EVENTS.register("entity.electromancer.prepare_conversion", () -> new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.electromancer.prepare_conversion")));
 
 	private static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
 		return builder.build(id);
-	}
-
-	private static Item.Properties itemBuilder() {
-		return new Item.Properties().tab(CreativeModeTab.TAB_MISC);
 	}
 }
