@@ -25,6 +25,7 @@ public class EventHandler {
 					if (necromancer.canHeal()) {
 						necromancer.healMember(raider);
 						event.setCanceled(true);
+						break;
 					}
 				}
 			}
