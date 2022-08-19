@@ -14,6 +14,8 @@ public class RaidedConfig {
 	protected static final Integer[] inquisitorSpawns = new Integer[]{0, 0, 0, 3, 0, 0, 0, 0};
 	protected static final Integer[] incineratorSpawns = new Integer[]{0, 0, 0, 0, 1, 0, 0, 1};
 	protected static final Integer[] savagerSpawns = new Integer[]{0, 0, 0, 2, 0, 0, 1, 0};
+	protected static final Integer[] necromancerSpawns = new Integer[]{0, 0, 1, 0, 0, 1, 0, 0};
+	protected static final Integer[] electromancerSpawns = new Integer[]{0, 1, 0, 2, 0, 1, 0, 0};
 
 	public static class Common {
 		public final BooleanValue spawnInquisitor;
@@ -22,6 +24,10 @@ public class RaidedConfig {
 		public final ConfigValue<List<? extends Integer>> incineratorSpawnsPerWave;
 		public final BooleanValue spawnSavager;
 		public final ConfigValue<List<? extends Integer>> savagerSpawnsPerWave;
+		public final BooleanValue spawnNecromancer;
+		public final ConfigValue<List<? extends Integer>> necromancerSpawnsPerWave;
+		public final BooleanValue spawnElectromancer;
+		public final ConfigValue<List<? extends Integer>> electromancerSpawnsPerWave;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("General settings")
@@ -51,6 +57,22 @@ public class RaidedConfig {
 					.comment("The spawns per wave for the Savager before bonus spawns are applied (Must always have 8 values!)")
 					.defineList(List.of("savagerSpawnsPerWave"), () -> List.of(savagerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
 
+			spawnNecromancer = builder
+					.comment("Enable Necromancer spawning during raids based on the 'necromancerSpawnsPerWave' setup")
+					.define("spawnNecromancer", true);
+
+			necromancerSpawnsPerWave = builder
+					.comment("The spawns per wave for the Necromancer before bonus spawns are applied (Must always have 8 values!)")
+					.defineList(List.of("necromancerSpawnsPerWave"), () -> List.of(necromancerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+
+			spawnElectromancer = builder
+					.comment("Enable Electromancer spawning during raids based on the 'electromancerSpawnsPerWave' setup")
+					.define("spawnElectromancer", true);
+
+			electromancerSpawnsPerWave = builder
+					.comment("The spawns per wave for the Electromancer before bonus spawns are applied (Must always have 8 values!)")
+					.defineList(List.of("electromancerSpawnsPerWave"), () -> List.of(electromancerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+
 			builder.pop();
 		}
 	}
@@ -76,7 +98,9 @@ public class RaidedConfig {
 		if (configEvent.getConfig().getModId().equals(Raided.MOD_ID)) {
 			if (validateValue(COMMON.inquisitorSpawnsPerWave, inquisitorSpawns) ||
 					validateValue(COMMON.incineratorSpawnsPerWave, incineratorSpawns) ||
-					validateValue(COMMON.savagerSpawnsPerWave, savagerSpawns)) {
+					validateValue(COMMON.savagerSpawnsPerWave, savagerSpawns) ||
+					validateValue(COMMON.necromancerSpawnsPerWave, necromancerSpawns) ||
+					validateValue(COMMON.electromancerSpawnsPerWave, electromancerSpawns)) {
 				configEvent.getConfig().save();
 			}
 		}

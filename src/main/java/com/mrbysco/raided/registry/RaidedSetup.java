@@ -31,6 +31,10 @@ public class RaidedSetup {
 			registerRaiderTypes(RaidedRegistry.INCINERATOR.getEntityType(), RaidedConfig.COMMON.incineratorSpawnsPerWave.get());
 		if (RaidedConfig.COMMON.spawnSavager.get())
 			registerRaiderTypes(RaidedRegistry.SAVAGER.getEntityType(), RaidedConfig.COMMON.savagerSpawnsPerWave.get());
+		if (RaidedConfig.COMMON.spawnNecromancer.get())
+			registerRaiderTypes(RaidedRegistry.NECROMANCER.getEntityType(), RaidedConfig.COMMON.necromancerSpawnsPerWave.get());
+		if (RaidedConfig.COMMON.spawnElectromancer.get())
+			registerRaiderTypes(RaidedRegistry.ELECTROMANCER.getEntityType(), RaidedConfig.COMMON.electromancerSpawnsPerWave.get());
 	}
 
 	public static void registerRaiderTypes(EntityType<? extends Raider> type, List<? extends Integer> listValue) {
