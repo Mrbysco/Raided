@@ -7,6 +7,7 @@ import com.mrbysco.raided.entity.Inquisitor;
 import com.mrbysco.raided.entity.Necromancer;
 import com.mrbysco.raided.entity.Savager;
 import com.mrbysco.raided.entity.projectiles.IncineratorFireball;
+import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -46,6 +47,11 @@ public class RaidedRegistry {
 	public static final RaidRegHelper<Electromancer> ELECTROMANCER = new RaidRegHelper("electromancer",
 			EntityType.Builder.<Electromancer>of(Electromancer::new, MobCategory.MONSTER)
 					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37);
+
+	public static final RegistryObject<EntityType<LightningProjectile>> LIGHTNING_PROJECTILE = ENTITIES.register("lightning",
+			() -> register("lightning", EntityType.Builder.<LightningProjectile>of(LightningProjectile::new, MobCategory.MISC)
+					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
+					.setCustomClientFactory(LightningProjectile::new)));
 
 	public static final RegistryObject<SoundEvent> ELECROMANCER_PREPARE_CONVERSION = SOUND_EVENTS.register("entity.electromancer.prepare_conversion", () -> new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.electromancer.prepare_conversion")));
 

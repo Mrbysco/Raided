@@ -29,11 +29,11 @@ public class NecromancerModel extends HierarchicalModel<Necromancer> implements 
 	public NecromancerModel(ModelPart root) {
 		this.root = root.getChild("illager");
 		this.head = this.root.getChild("head");
-		this.hat = this.head.getChild("hat");
-		this.leftLeg = this.root.getChild("left_leg");
-		this.rightLeg = this.root.getChild("right_leg");
-		this.leftArm = this.root.getChild("left_arm");
-		this.rightArm = this.root.getChild("right_arm");
+		this.hat = this.head.getChild("head_hat");
+		this.leftLeg = this.root.getChild("leg_left");
+		this.rightLeg = this.root.getChild("leg_right");
+		this.leftArm = this.root.getChild("arm_left");
+		this.rightArm = this.root.getChild("arm_right");
 	}
 
 	public static LayerDefinition createBodyLayer() {

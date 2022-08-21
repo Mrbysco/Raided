@@ -1,20 +1,16 @@
 package com.mrbysco.raided.entity;
 
 import com.mrbysco.raided.entity.goal.WalkToRaiderGoal;
+import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -27,15 +23,13 @@ import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
-import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class Electromancer extends SpellcasterIllager {
@@ -92,7 +86,7 @@ public class Electromancer extends SpellcasterIllager {
 
 	@Override
 	public IllagerArmPose getArmPose() {
-		if (this.isAggressive()) {
+		if (this.isCastingSpell()) {
 			return IllagerArmPose.SPELLCASTING;
 		} else {
 			return this.isCelebrating() ? IllagerArmPose.CELEBRATING : IllagerArmPose.CROSSED;
@@ -176,7 +170,20 @@ public class Electromancer extends SpellcasterIllager {
 		}
 	}
 
-	public class CreeperConversionGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
+	public abstract class BoltUseSpellGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
+		protected void createBoltEntity(LivingEntity target) {
+			LightningProjectile lightningProjectile = new LightningProjectile(Electromancer.this.level, Electromancer.this, 0, 0, 0);
+			double d1 = target.getX() - Electromancer.this.getX();
+			double d2 = target.getY(0.5D) - (Electromancer.this.getY(0.5D) + 2);
+			double d3 = target.getZ() - Electromancer.this.getZ();
+			double d4 = Math.sqrt(d1 * d1 + d3 * d3) * (double) 0.2F;
+			lightningProjectile.shoot(d1, d2 + d4, d3, 1.6F, 0);
+			lightningProjectile.setTarget(target.getUUID());
+			Electromancer.this.level.addFreshEntity(lightningProjectile);
+		}
+	}
+
+	public class CreeperConversionGoal extends BoltUseSpellGoal {
 		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity) -> {
 			return !((Creeper) livingEntity).isPowered();
 		});
@@ -213,23 +220,20 @@ public class Electromancer extends SpellcasterIllager {
 		protected void performSpellCasting() {
 			Creeper creeper = Electromancer.this.getCreeperConversionTarget();
 			if (creeper != null && creeper.isAlive()) {
-				LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, Electromancer.this.level);
-				bolt.setDamage(0);
-				creeper.thunderHit((ServerLevel) Electromancer.this.level, bolt);
+				createBoltEntity(creeper);
 			}
-
 		}
 
 		protected int getCastWarmupTime() {
-			return 30;
+			return 80;
 		}
 
 		protected int getCastingTime() {
-			return 60;
+			return 80;
 		}
 
 		protected int getCastingInterval() {
-			return 160;
+			return 240;
 		}
 
 		protected SoundEvent getSpellPrepareSound() {
@@ -241,7 +245,7 @@ public class Electromancer extends SpellcasterIllager {
 		}
 	}
 
-	public class PigConversionGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
+	public class PigConversionGoal extends BoltUseSpellGoal {
 		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity) -> {
 			return ((Pig) livingEntity).isAlive();
 		});
@@ -278,23 +282,20 @@ public class Electromancer extends SpellcasterIllager {
 		protected void performSpellCasting() {
 			Pig pig = Electromancer.this.getPigConversionTarget();
 			if (pig != null && pig.isAlive()) {
-				LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, Electromancer.this.level);
-				bolt.setDamage(0);
-				pig.thunderHit((ServerLevel) Electromancer.this.level, bolt);
+				createBoltEntity(pig);
 			}
-
 		}
 
 		protected int getCastWarmupTime() {
-			return 30;
+			return 120;
 		}
 
 		protected int getCastingTime() {
-			return 80;
+			return 120;
 		}
 
 		protected int getCastingInterval() {
-			return 180;
+			return 320;
 		}
 
 		protected SoundEvent getSpellPrepareSound() {
@@ -306,7 +307,7 @@ public class Electromancer extends SpellcasterIllager {
 		}
 	}
 
-	public class WitchificationSpellGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
+	public class WitchificationSpellGoal extends BoltUseSpellGoal {
 		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity) -> {
 			return !(livingEntity instanceof WanderingTrader);
 		});
@@ -343,40 +344,20 @@ public class Electromancer extends SpellcasterIllager {
 		protected void performSpellCasting() {
 			AbstractVillager abstractVillager = Electromancer.this.getWitchificationTarget();
 			if (!level.isClientSide && abstractVillager != null && abstractVillager.isAlive()) {
-				ServerLevel level = (ServerLevel) Electromancer.this.level;
-				if (Electromancer.this.level.getDifficulty() != Difficulty.PEACEFUL && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
-				})) {
-					Witch witch = EntityType.WITCH.create(level);
-					witch.moveTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());
-					witch.finalizeSpawn(level, level.getCurrentDifficultyAt(witch.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
-					witch.setNoAi(abstractVillager.isNoAi());
-					if (abstractVillager.hasCustomName()) {
-						witch.setCustomName(abstractVillager.getCustomName());
-						witch.setCustomNameVisible(abstractVillager.isCustomNameVisible());
-					}
-
-					witch.setPersistenceRequired();
-					net.minecraftforge.event.ForgeEventFactory.onLivingConvert(abstractVillager, witch);
-					level.addFreshEntityWithPassengers(witch);
-					if (abstractVillager instanceof Villager villager) {
-						villager.releaseAllPois();
-					}
-					abstractVillager.discard();
-				}
+				createBoltEntity(abstractVillager);
 			}
-
 		}
 
 		protected int getCastWarmupTime() {
-			return 40;
+			return 240;
 		}
 
 		protected int getCastingTime() {
-			return 160;
+			return 240;
 		}
 
 		protected int getCastingInterval() {
-			return 320;
+			return 512;
 		}
 
 		protected SoundEvent getSpellPrepareSound() {
