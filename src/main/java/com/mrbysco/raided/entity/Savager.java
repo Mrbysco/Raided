@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
@@ -51,8 +50,6 @@ public class Savager extends Raider {
 		this.targetSelector.addGoal(1, new RaiderHurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
 		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, TamableAnimal.class, true, IS_TAMED));
-		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true, (livingEntity) -> !livingEntity.isBaby()));
-		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
