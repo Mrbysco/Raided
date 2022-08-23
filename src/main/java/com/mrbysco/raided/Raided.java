@@ -30,7 +30,7 @@ public class Raided {
 		eventBus.addListener(this::setup);
 
 		RaidedRegistry.ITEMS.register(eventBus);
-		RaidedRegistry.ENTITIES.register(eventBus);
+		RaidedRegistry.ENTITY_TYPES.register(eventBus);
 		RaidedRegistry.SOUND_EVENTS.register(eventBus);
 
 		MinecraftForge.EVENT_BUS.register(new EventHandler());

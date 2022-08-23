@@ -167,8 +167,8 @@ public class Inquisitor extends AbstractIllager {
 
 		this.setInquisitorType(random.nextInt(3) + 1);
 
-		this.populateDefaultEquipmentSlots(difficultyInstance);
-		this.populateDefaultEquipmentEnchantments(difficultyInstance);
+		this.populateDefaultEquipmentSlots(random, difficultyInstance);
+		this.populateDefaultEquipmentEnchantments(random, difficultyInstance);
 		this.setCanPickUpLoot(random.nextFloat() < 0.55F * difficultyInstance.getSpecialMultiplier());
 
 		return spawngroupdata;

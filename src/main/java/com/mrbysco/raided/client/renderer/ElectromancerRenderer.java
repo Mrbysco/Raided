@@ -14,7 +14,7 @@ public class ElectromancerRenderer extends MobRenderer<Electromancer, Electroman
 
 	public ElectromancerRenderer(EntityRendererProvider.Context context) {
 		super(context, new ElectromancerModel(context.bakeLayer(ClientHandler.ELECTROMANCER)), 0.4F);
-		this.addLayer(new ItemInHandLayer(this));
+		this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
 	}
 
 	@Override

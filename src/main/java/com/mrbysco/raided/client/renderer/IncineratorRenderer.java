@@ -16,7 +16,7 @@ public class IncineratorRenderer extends MobRenderer<Incinerator, IncineratorMod
 
 	public IncineratorRenderer(EntityRendererProvider.Context context) {
 		super(context, new IncineratorModel(context.bakeLayer(ClientHandler.INCINERATOR)), 0.7F);
-		this.addLayer(new ItemInHandLayer(this));
+		this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
 		this.addLayer(new GlowLayer(this, EYES_TEXTURE));
 	}
 

@@ -20,7 +20,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RaidedRegistry {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Raided.MOD_ID);
-	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Raided.MOD_ID);
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Raided.MOD_ID);
 	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Raided.MOD_ID);
 
 	public static final RaidRegHelper<Inquisitor> INQUISITOR = new RaidRegHelper("inquisitor",
@@ -31,7 +31,7 @@ public class RaidedRegistry {
 			EntityType.Builder.<Incinerator>of(Incinerator::new, MobCategory.MONSTER)
 					.sized(1.4F, 2.2F).fireImmune().clientTrackingRange(8), 0x959b9b, 0x3f3b37);
 
-	public static final RegistryObject<EntityType<IncineratorFireball>> INCINERATOR_FIREBALL = ENTITIES.register("incinerator_fireball",
+	public static final RegistryObject<EntityType<IncineratorFireball>> INCINERATOR_FIREBALL = ENTITY_TYPES.register("incinerator_fireball",
 			() -> register("incinerator_fireball", EntityType.Builder.<IncineratorFireball>of(IncineratorFireball::new, MobCategory.MISC)
 					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
 					.setCustomClientFactory(IncineratorFireball::new)));
@@ -48,7 +48,7 @@ public class RaidedRegistry {
 			EntityType.Builder.<Electromancer>of(Electromancer::new, MobCategory.MONSTER)
 					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37);
 
-	public static final RegistryObject<EntityType<LightningProjectile>> LIGHTNING_PROJECTILE = ENTITIES.register("lightning",
+	public static final RegistryObject<EntityType<LightningProjectile>> LIGHTNING_PROJECTILE = ENTITY_TYPES.register("lightning",
 			() -> register("lightning", EntityType.Builder.<LightningProjectile>of(LightningProjectile::new, MobCategory.MISC)
 					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
 					.setCustomClientFactory(LightningProjectile::new)));

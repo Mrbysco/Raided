@@ -14,7 +14,7 @@ public class NecromancerRenderer extends MobRenderer<Necromancer, NecromancerMod
 
 	public NecromancerRenderer(EntityRendererProvider.Context context) {
 		super(context, new NecromancerModel(context.bakeLayer(ClientHandler.NECROMANCER)), 0.4F);
-		this.addLayer(new ItemInHandLayer(this));
+		this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
 	}
 
 	@Override

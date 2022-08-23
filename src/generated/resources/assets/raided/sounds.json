@@ -1,163 +1,163 @@
 {
-  "entity.inquisitor.ambient": {
-    "subtitle": "raided.subtitle.entity.inquisitor.ambient",
-    "sounds": [
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2",
-      "mob/evocation_illager/idle3",
-      "mob/evocation_illager/idle4"
-    ]
-  },
-  "entity.inquisitor.death": {
-    "subtitle": "raided.subtitle.entity.inquisitor.death",
-    "sounds": [
-      "mob/evocation_illager/death1",
-      "mob/evocation_illager/death2"
-    ]
-  },
-  "entity.inquisitor.hurt": {
-    "subtitle": "raided.subtitle.entity.inquisitor.death",
-    "sounds": [
-      "mob/evocation_illager/hurt1",
-      "mob/evocation_illager/hurt2"
-    ]
-  },
-  "entity.inquisitor.celebrate": {
-    "subtitle": "raided.subtitle.entity.inquisitor.celebrate",
-    "sounds": [
-      "mob/evocation_illager/celebrate",
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2"
-    ]
-  },
-  "entity.incinerator.ambient": {
-    "subtitle": "raided.subtitle.entity.incinerator.ambient",
-    "sounds": [
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2",
-      "mob/evocation_illager/idle3",
-      "mob/evocation_illager/idle4"
-    ]
-  },
-  "entity.incinerator.death": {
-    "subtitle": "raided.subtitle.entity.incinerator.death",
-    "sounds": [
-      "mob/evocation_illager/death1",
-      "mob/evocation_illager/death2"
-    ]
-  },
-  "entity.incinerator.hurt": {
-    "subtitle": "raided.subtitle.entity.incinerator.death",
-    "sounds": [
-      "mob/evocation_illager/hurt1",
-      "mob/evocation_illager/hurt2"
-    ]
-  },
-  "entity.incinerator.celebrate": {
-    "subtitle": "raided.subtitle.entity.incinerator.celebrate",
-    "sounds": [
-      "mob/evocation_illager/celebrate",
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2"
-    ]
-  },
-  "entity.savager.ambient": {
-    "subtitle": "raided.subtitle.entity.savager.ambient",
-    "sounds": [
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2",
-      "mob/evocation_illager/idle3",
-      "mob/evocation_illager/idle4"
-    ]
-  },
-  "entity.savager.death": {
-    "subtitle": "raided.subtitle.entity.savager.death",
-    "sounds": [
-      "mob/evocation_illager/death1",
-      "mob/evocation_illager/death2"
-    ]
-  },
-  "entity.savager.hurt": {
-    "subtitle": "raided.subtitle.entity.savager.death",
-    "sounds": [
-      "mob/evocation_illager/hurt1",
-      "mob/evocation_illager/hurt2"
-    ]
-  },
-  "entity.savager.celebrate": {
-    "subtitle": "raided.subtitle.entity.savager.celebrate",
-    "sounds": [
-      "mob/evocation_illager/celebrate",
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2"
-    ]
-  },
-  "entity.necromancer.ambient": {
-    "subtitle": "raided.subtitle.entity.necromancer.ambient",
-    "sounds": [
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2",
-      "mob/evocation_illager/idle3",
-      "mob/evocation_illager/idle4"
-    ]
-  },
-  "entity.necromancer.death": {
-    "subtitle": "raided.subtitle.entity.necromancer.death",
-    "sounds": [
-      "mob/evocation_illager/death1",
-      "mob/evocation_illager/death2"
-    ]
-  },
-  "entity.necromancer.hurt": {
-    "subtitle": "raided.subtitle.entity.necromancer.death",
-    "sounds": [
-      "mob/evocation_illager/hurt1",
-      "mob/evocation_illager/hurt2"
-    ]
-  },
-  "entity.necromancer.celebrate": {
-    "subtitle": "raided.subtitle.entity.necromancer.celebrate",
-    "sounds": [
-      "mob/evocation_illager/celebrate",
-      "mob/evocation_illager/idle1",
-      "mob/evocation_illager/idle2"
-    ]
-  },
   "entity.electromancer.ambient": {
-    "subtitle": "raided.subtitle.entity.electromancer.ambient",
     "sounds": [
       "mob/evocation_illager/idle1",
       "mob/evocation_illager/idle2",
       "mob/evocation_illager/idle3",
       "mob/evocation_illager/idle4"
-    ]
-  },
-  "entity.electromancer.death": {
-    "subtitle": "raided.subtitle.entity.electromancer.death",
-    "sounds": [
-      "mob/evocation_illager/death1",
-      "mob/evocation_illager/death2"
-    ]
-  },
-  "entity.electromancer.hurt": {
-    "subtitle": "raided.subtitle.entity.electromancer.death",
-    "sounds": [
-      "mob/evocation_illager/hurt1",
-      "mob/evocation_illager/hurt2"
-    ]
+    ],
+    "subtitle": "raided.subtitle.entity.electromancer.ambient"
   },
   "entity.electromancer.celebrate": {
-    "subtitle": "raided.subtitle.entity.electromancer.celebrate",
     "sounds": [
       "mob/evocation_illager/celebrate",
       "mob/evocation_illager/idle1",
       "mob/evocation_illager/idle2"
-    ]
+    ],
+    "subtitle": "raided.subtitle.entity.electromancer.celebrate"
+  },
+  "entity.electromancer.death": {
+    "sounds": [
+      "mob/evocation_illager/death1",
+      "mob/evocation_illager/death2"
+    ],
+    "subtitle": "raided.subtitle.entity.electromancer.death"
+  },
+  "entity.electromancer.hurt": {
+    "sounds": [
+      "mob/evocation_illager/hurt1",
+      "mob/evocation_illager/hurt2"
+    ],
+    "subtitle": "raided.subtitle.entity.electromancer.death"
   },
   "entity.electromancer.prepare_conversion": {
-    "subtitle": "raided.subtitle.entity.electromancer.prepare_conversion",
     "sounds": [
       "mob/evocation_illager/prepare_wololo"
-    ]
+    ],
+    "subtitle": "raided.subtitle.entity.electromancer.prepare_conversion"
+  },
+  "entity.incinerator.ambient": {
+    "sounds": [
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2",
+      "mob/evocation_illager/idle3",
+      "mob/evocation_illager/idle4"
+    ],
+    "subtitle": "raided.subtitle.entity.incinerator.ambient"
+  },
+  "entity.incinerator.celebrate": {
+    "sounds": [
+      "mob/evocation_illager/celebrate",
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2"
+    ],
+    "subtitle": "raided.subtitle.entity.incinerator.celebrate"
+  },
+  "entity.incinerator.death": {
+    "sounds": [
+      "mob/evocation_illager/death1",
+      "mob/evocation_illager/death2"
+    ],
+    "subtitle": "raided.subtitle.entity.incinerator.death"
+  },
+  "entity.incinerator.hurt": {
+    "sounds": [
+      "mob/evocation_illager/hurt1",
+      "mob/evocation_illager/hurt2"
+    ],
+    "subtitle": "raided.subtitle.entity.incinerator.death"
+  },
+  "entity.inquisitor.ambient": {
+    "sounds": [
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2",
+      "mob/evocation_illager/idle3",
+      "mob/evocation_illager/idle4"
+    ],
+    "subtitle": "raided.subtitle.entity.inquisitor.ambient"
+  },
+  "entity.inquisitor.celebrate": {
+    "sounds": [
+      "mob/evocation_illager/celebrate",
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2"
+    ],
+    "subtitle": "raided.subtitle.entity.inquisitor.celebrate"
+  },
+  "entity.inquisitor.death": {
+    "sounds": [
+      "mob/evocation_illager/death1",
+      "mob/evocation_illager/death2"
+    ],
+    "subtitle": "raided.subtitle.entity.inquisitor.death"
+  },
+  "entity.inquisitor.hurt": {
+    "sounds": [
+      "mob/evocation_illager/hurt1",
+      "mob/evocation_illager/hurt2"
+    ],
+    "subtitle": "raided.subtitle.entity.inquisitor.death"
+  },
+  "entity.necromancer.ambient": {
+    "sounds": [
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2",
+      "mob/evocation_illager/idle3",
+      "mob/evocation_illager/idle4"
+    ],
+    "subtitle": "raided.subtitle.entity.necromancer.ambient"
+  },
+  "entity.necromancer.celebrate": {
+    "sounds": [
+      "mob/evocation_illager/celebrate",
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2"
+    ],
+    "subtitle": "raided.subtitle.entity.necromancer.celebrate"
+  },
+  "entity.necromancer.death": {
+    "sounds": [
+      "mob/evocation_illager/death1",
+      "mob/evocation_illager/death2"
+    ],
+    "subtitle": "raided.subtitle.entity.necromancer.death"
+  },
+  "entity.necromancer.hurt": {
+    "sounds": [
+      "mob/evocation_illager/hurt1",
+      "mob/evocation_illager/hurt2"
+    ],
+    "subtitle": "raided.subtitle.entity.necromancer.death"
+  },
+  "entity.savager.ambient": {
+    "sounds": [
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2",
+      "mob/evocation_illager/idle3",
+      "mob/evocation_illager/idle4"
+    ],
+    "subtitle": "raided.subtitle.entity.savager.ambient"
+  },
+  "entity.savager.celebrate": {
+    "sounds": [
+      "mob/evocation_illager/celebrate",
+      "mob/evocation_illager/idle1",
+      "mob/evocation_illager/idle2"
+    ],
+    "subtitle": "raided.subtitle.entity.savager.celebrate"
+  },
+  "entity.savager.death": {
+    "sounds": [
+      "mob/evocation_illager/death1",
+      "mob/evocation_illager/death2"
+    ],
+    "subtitle": "raided.subtitle.entity.savager.death"
+  },
+  "entity.savager.hurt": {
+    "sounds": [
+      "mob/evocation_illager/hurt1",
+      "mob/evocation_illager/hurt2"
+    ],
+    "subtitle": "raided.subtitle.entity.savager.death"
   }
 }

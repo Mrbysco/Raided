@@ -23,9 +23,9 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
@@ -44,12 +44,12 @@ public class RaidedDatagen {
 		ExistingFileHelper helper = event.getExistingFileHelper();
 
 		if (event.includeServer()) {
-			generator.addProvider(new Loots(generator));
+			generator.addProvider(event.includeServer(), new Loots(generator));
 		}
 		if (event.includeClient()) {
-			generator.addProvider(new Language(generator));
-			generator.addProvider(new ItemModels(generator, helper));
-			generator.addProvider(new SoundProvider(generator, helper));
+			generator.addProvider(event.includeClient(), new Language(generator));
+			generator.addProvider(event.includeClient(), new ItemModels(generator, helper));
+			generator.addProvider(event.includeClient(), new SoundProvider(generator, helper));
 		}
 	}
 
@@ -78,7 +78,7 @@ public class RaidedDatagen {
 
 			@Override
 			protected Iterable<EntityType<?>> getKnownEntities() {
-				Stream<EntityType<?>> entityTypeStream = RaidedRegistry.ENTITIES.getEntries().stream().map(RegistryObject::get);
+				Stream<EntityType<?>> entityTypeStream = RaidedRegistry.ENTITY_TYPES.getEntries().stream().map(RegistryObject::get);
 				return entityTypeStream::iterator;
 			}
 		}
@@ -194,7 +194,7 @@ public class RaidedDatagen {
 		protected void registerModels() {
 			for (RegistryObject<Item> item : RaidedRegistry.ITEMS.getEntries()) {
 				if (item.get() instanceof SpawnEggItem) {
-					withExistingParent(item.get().getRegistryName().getPath(), new ResourceLocation("item/template_spawn_egg"));
+					withExistingParent(item.getId().getPath(), new ResourceLocation("item/template_spawn_egg"));
 				}
 			}
 		}

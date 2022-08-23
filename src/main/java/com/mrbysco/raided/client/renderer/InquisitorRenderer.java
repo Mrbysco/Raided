@@ -19,7 +19,7 @@ public class InquisitorRenderer extends MobRenderer<Inquisitor, InquisitorModel>
 
 	public InquisitorRenderer(EntityRendererProvider.Context context) {
 		super(context, new InquisitorModel(context.bakeLayer(ClientHandler.INQUISITOR)), 0.4F);
-		this.addLayer(new ItemInHandLayer(this));
+		this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
 	}
 
 	@Override

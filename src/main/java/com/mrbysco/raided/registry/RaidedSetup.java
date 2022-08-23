@@ -43,7 +43,7 @@ public class RaidedSetup {
 			intArray[i] = listValue.get(i);
 		}
 
-		ResourceLocation key = ForgeRegistries.ENTITIES.getKey(type);
+		ResourceLocation key = ForgeRegistries.ENTITY_TYPES.getKey(type);
 		if (key != null) {
 			Raid.RaiderType.create(key.toString(), type, intArray);
 		}

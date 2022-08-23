@@ -81,7 +81,7 @@ public class RaidRegHelper<T extends Raider> {
 
 	public RaidRegHelper(String name, EntityType.Builder<T> builder, int backgroundColor, int highlightColor, boolean casting) {
 		this.name = name;
-		this.entityType = RaidedRegistry.ENTITIES.register(name, () -> builder.build(name));
+		this.entityType = RaidedRegistry.ENTITY_TYPES.register(name, () -> builder.build(name));
 		this.spawnEgg = RaidedRegistry.ITEMS.register(name + "_spawn_egg", () -> new ForgeSpawnEggItem(this.entityType, backgroundColor, highlightColor,
 				new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
