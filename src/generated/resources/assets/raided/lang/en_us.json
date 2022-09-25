@@ -1,9 +1,9 @@
 {
-  "entity.raided.electromancer": "Inquisitor",
-  "entity.raided.incinerator": "Inquisitor",
+  "entity.raided.electromancer": "Electromancer",
+  "entity.raided.incinerator": "Incinerator",
   "entity.raided.inquisitor": "Inquisitor",
-  "entity.raided.necromancer": "Inquisitor",
-  "entity.raided.savager": "Inquisitor",
+  "entity.raided.necromancer": "Necromancer",
+  "entity.raided.savager": "Savager",
   "item.raided.electromancer_spawn_egg": "Electromancer Spawn Egg",
   "item.raided.incinerator_spawn_egg": "Incinerator Spawn Egg",
   "item.raided.inquisitor_spawn_egg": "Inquisitor Spawn Egg",

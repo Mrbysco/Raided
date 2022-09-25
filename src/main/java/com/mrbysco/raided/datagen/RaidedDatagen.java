@@ -106,7 +106,7 @@ public class RaidedDatagen {
 		}
 
 		private void addHelper(RaidRegHelper helper, String name) {
-			add(helper.getEntityType(), "Inquisitor");
+			add(helper.getEntityType(), name);
 			addItem(helper.getSpawnEgg(), name + " Spawn Egg");
 			addSubtitle(helper.getAmbient(), name + " mutters");
 			addSubtitle(helper.getDeath(), name + " dies");
