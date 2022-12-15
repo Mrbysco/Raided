@@ -1,23 +1,21 @@
 package com.mrbysco.raided.datagen;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import com.mrbysco.raided.Raided;
 import com.mrbysco.raided.registry.RaidRegHelper;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -30,9 +28,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -42,33 +38,32 @@ public class RaidedDatagen {
 	public static void gatherData(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper helper = event.getExistingFileHelper();
+		PackOutput packOutput = generator.getPackOutput();
 
 		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new Loots(generator));
+			generator.addProvider(event.includeServer(), new Loots(packOutput));
 		}
 		if (event.includeClient()) {
-			generator.addProvider(event.includeClient(), new Language(generator));
-			generator.addProvider(event.includeClient(), new ItemModels(generator, helper));
-			generator.addProvider(event.includeClient(), new SoundProvider(generator, helper));
+			generator.addProvider(event.includeClient(), new Language(packOutput));
+			generator.addProvider(event.includeClient(), new ItemModels(packOutput, helper));
+			generator.addProvider(event.includeClient(), new SoundProvider(packOutput, helper));
 		}
 	}
 
 	private static class Loots extends LootTableProvider {
-		public Loots(DataGenerator gen) {
-			super(gen);
+		public Loots(PackOutput packOutput) {
+			super(packOutput, Set.of(), List.of(
+					new SubProviderEntry(RaidedLootTables::new, LootContextParamSets.ENTITY)
+			));
 		}
 
-		@Override
-		protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, Builder>>>, LootContextParamSet>> getTables() {
-			return ImmutableList.of(
-					Pair.of(RaidedLootTables::new, LootContextParamSets.ENTITY)
-			);
-		}
-
-		public static class RaidedLootTables extends EntityLoot {
+		public static class RaidedLootTables extends EntityLootSubProvider {
+			protected RaidedLootTables() {
+				super(FeatureFlags.REGISTRY.allFlags());
+			}
 
 			@Override
-			protected void addTables() {
+			public void generate() {
 				this.add(RaidedRegistry.INQUISITOR.getEntityType(), LootTable.lootTable());
 				this.add(RaidedRegistry.INCINERATOR.getEntityType(), LootTable.lootTable());
 				this.add(RaidedRegistry.SAVAGER.getEntityType(), LootTable.lootTable());
@@ -77,9 +72,8 @@ public class RaidedDatagen {
 			}
 
 			@Override
-			protected Iterable<EntityType<?>> getKnownEntities() {
-				Stream<EntityType<?>> entityTypeStream = RaidedRegistry.ENTITY_TYPES.getEntries().stream().map(RegistryObject::get);
-				return entityTypeStream::iterator;
+			protected Stream<EntityType<?>> getKnownEntityTypes() {
+				return RaidedRegistry.ENTITY_TYPES.getEntries().stream().map(RegistryObject::get);
 			}
 		}
 
@@ -90,8 +84,8 @@ public class RaidedDatagen {
 	}
 
 	private static class Language extends LanguageProvider {
-		public Language(DataGenerator gen) {
-			super(gen, Raided.MOD_ID, "en_us");
+		public Language(PackOutput packOutput) {
+			super(packOutput, Raided.MOD_ID, "en_us");
 		}
 
 		@Override
@@ -123,8 +117,8 @@ public class RaidedDatagen {
 	}
 
 	private static class SoundProvider extends SoundDefinitionsProvider {
-		public SoundProvider(DataGenerator generator, ExistingFileHelper helper) {
-			super(generator, Raided.MOD_ID, helper);
+		public SoundProvider(PackOutput packOutput, ExistingFileHelper helper) {
+			super(packOutput, Raided.MOD_ID, helper);
 		}
 
 		@Override
@@ -186,8 +180,8 @@ public class RaidedDatagen {
 	}
 
 	private static class ItemModels extends ItemModelProvider {
-		public ItemModels(DataGenerator gen, ExistingFileHelper helper) {
-			super(gen, Raided.MOD_ID, helper);
+		public ItemModels(PackOutput packOutput, ExistingFileHelper helper) {
+			super(packOutput, Raided.MOD_ID, helper);
 		}
 
 		@Override

@@ -2,7 +2,7 @@ package com.mrbysco.raided.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.mrbysco.raided.Raided;
 import com.mrbysco.raided.client.ClientHandler;
 import com.mrbysco.raided.entity.projectiles.LightningProjectile;
@@ -36,9 +36,9 @@ public class LightningProjectileRenderer extends EntityRenderer<LightningProject
 		float f1 = Mth.lerp(partialTicks, projectile.xRotO, projectile.getXRot());
 		float f2 = (float) projectile.tickCount + partialTicks;
 		poseStack.translate(0.0D, (double) 0.15F, 0.0D);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(Mth.sin(f2 * 0.1F) * 180.0F));
-		poseStack.mulPose(Vector3f.XP.rotationDegrees(Mth.cos(f2 * 0.1F) * 180.0F));
-		poseStack.mulPose(Vector3f.ZP.rotationDegrees(Mth.sin(f2 * 0.15F) * 360.0F));
+		poseStack.mulPose(Axis.YP.rotationDegrees(Mth.sin(f2 * 0.1F) * 180.0F));
+		poseStack.mulPose(Axis.XP.rotationDegrees(Mth.cos(f2 * 0.1F) * 180.0F));
+		poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.sin(f2 * 0.15F) * 360.0F));
 		poseStack.scale(-0.5F, -0.5F, 0.5F);
 		this.model.setupAnim(projectile, 0.0F, 0.0F, 0.0F, f, f1);
 		VertexConsumer vertexconsumer = bufferSource.getBuffer(this.model.renderType(TEXTURE_LOCATION));

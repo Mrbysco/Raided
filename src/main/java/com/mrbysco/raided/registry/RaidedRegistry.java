@@ -53,7 +53,8 @@ public class RaidedRegistry {
 					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
 					.setCustomClientFactory(LightningProjectile::new)));
 
-	public static final RegistryObject<SoundEvent> ELECROMANCER_PREPARE_CONVERSION = SOUND_EVENTS.register("entity.electromancer.prepare_conversion", () -> new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity.electromancer.prepare_conversion")));
+	public static final RegistryObject<SoundEvent> ELECROMANCER_PREPARE_CONVERSION = SOUND_EVENTS.register("entity.electromancer.prepare_conversion", () ->
+			SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity.electromancer.prepare_conversion")));
 
 	private static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
 		return builder.build(id);
