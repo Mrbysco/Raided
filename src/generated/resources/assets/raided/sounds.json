@@ -8,6 +8,13 @@
     ],
     "subtitle": "raided.subtitle.entity.electromancer.ambient"
   },
+  "entity.electromancer.casting": {
+    "sounds": [
+      "mob/evocation_illager/cast1",
+      "mob/evocation_illager/cast2"
+    ],
+    "subtitle": "raided.subtitle.entity.electromancer.casting"
+  },
   "entity.electromancer.celebrate": {
     "sounds": [
       "mob/evocation_illager/celebrate",
