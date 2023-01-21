@@ -154,6 +154,13 @@
       "mob/evocation_illager/idle2"
     ]
   },
+  "entity.electromancer.casting": {
+    "subtitle": "raided.subtitle.entity.electromancer.casting",
+    "sounds": [
+      "mob/evocation_illager/cast1",
+      "mob/evocation_illager/cast2"
+    ]
+  },
   "entity.electromancer.prepare_conversion": {
     "subtitle": "raided.subtitle.entity.electromancer.prepare_conversion",
     "sounds": [

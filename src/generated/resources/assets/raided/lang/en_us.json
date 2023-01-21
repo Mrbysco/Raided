@@ -10,6 +10,7 @@
   "item.raided.necromancer_spawn_egg": "Necromancer Spawn Egg",
   "item.raided.savager_spawn_egg": "Savager Spawn Egg",
   "raided.subtitle.entity.electromancer.ambient": "Electromancer mutters",
+  "raided.subtitle.entity.electromancer.casting": "Electromancer casts spell",
   "raided.subtitle.entity.electromancer.celebrate": "Electromancer cheers",
   "raided.subtitle.entity.electromancer.death": "Electromancer dies",
   "raided.subtitle.entity.electromancer.hurt": "Electromancer hurts",

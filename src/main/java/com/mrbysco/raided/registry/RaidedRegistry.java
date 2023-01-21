@@ -46,7 +46,7 @@ public class RaidedRegistry {
 
 	public static final RaidRegHelper<Electromancer> ELECTROMANCER = new RaidRegHelper("electromancer",
 			EntityType.Builder.<Electromancer>of(Electromancer::new, MobCategory.MONSTER)
-					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37);
+					.sized(0.6F, 1.95F).clientTrackingRange(8), 0x959b9b, 0x3f3b37, true);
 
 	public static final RegistryObject<EntityType<LightningProjectile>> LIGHTNING_PROJECTILE = ENTITIES.register("lightning",
 			() -> register("lightning", EntityType.Builder.<LightningProjectile>of(LightningProjectile::new, MobCategory.MISC)
