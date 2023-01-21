@@ -90,7 +90,7 @@ public class RaidRegHelper<T extends Raider> {
 		this.HURT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".hurt", () -> new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".hurt")));
 		this.CELEBRATE = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".celebrate", () -> new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".celebrate")));
 		if (casting) {
-			this.CELEBRATE = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".casting", () -> new SoundEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".casting")));
+			this.CASTING = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".casting", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".casting")));
 		}
 	}
 
