@@ -1,5 +1,5 @@
-[![build](https://github.com/Mrbysco/Raided/actions/workflows/build.yml/badge.svg)](https://github.com/Mrbysco/Raided/actions/workflows/build.yml) [![](http://cf.way2muchnoise.eu/versions/580942.svg)](https://www.curseforge.com/minecraft/mc-mods/raided)
-[![](https://modrinth-utils.vercel.app/api/badge/versions?id=9vaHfaHw)](https://modrinth.com/mod/raided)
+[![build](https://github.com/Mrbysco/Raided/actions/workflows/build.yml/badge.svg)](https://github.com/Mrbysco/Raided/actions/workflows/build.yml) 
+[![](http://cf.way2muchnoise.eu/versions/580942.svg)](https://www.curseforge.com/minecraft/mc-mods/raided)
 
 # Raided mod #
 
