@@ -124,7 +124,7 @@ public class Necromancer extends AbstractIllager {
 	public void healMember(Raider raider) {
 		float halfHealth = raider.getMaxHealth() / 2;
 		raider.heal(halfHealth);
-		this.hurt(DamageSource.MAGIC, (float) Math.ceil((halfHealth / 5)));
+		this.hurt(damageSources().magic(), (float) Math.ceil((halfHealth / 5)));
 		this.setIsHealing(true);
 		this.healingTickCount = 30;
 	}

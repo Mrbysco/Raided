@@ -48,7 +48,7 @@ public class IncineratorFireball extends SmallFireball {
 				Entity owner = this.getOwner();
 				int i = entity.getRemainingFireTicks();
 				entity.setSecondsOnFire(4);
-				boolean flag = entity.hurt(DamageSource.fireball(this, owner), 5.0F);
+				boolean flag = entity.hurt(damageSources().fireball(this, owner), 5.0F);
 				if (!flag) {
 					entity.setRemainingFireTicks(i);
 				} else if (owner instanceof LivingEntity) {

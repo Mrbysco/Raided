@@ -32,7 +32,7 @@ public class LightningProjectileRenderer extends EntityRenderer<LightningProject
 
 	public void render(LightningProjectile projectile, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 		poseStack.pushPose();
-		float f = Mth.rotlerp(projectile.yRotO, projectile.getYRot(), partialTicks);
+		float f = Mth.rotLerp(projectile.yRotO, projectile.getYRot(), partialTicks);
 		float f1 = Mth.lerp(partialTicks, projectile.xRotO, projectile.getXRot());
 		float f2 = (float) projectile.tickCount + partialTicks;
 		poseStack.translate(0.0D, (double) 0.15F, 0.0D);

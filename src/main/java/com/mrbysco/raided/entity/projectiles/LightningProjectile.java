@@ -90,7 +90,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 		if (this.targetId != null && entity.getUUID().equals(this.targetId)) {
 			convertEntity(entity);
 		} else {
-			entity.hurt(DamageSource.LIGHTNING_BOLT, 2.0F);
+			entity.hurt(damageSources().lightningBolt(), 2.0F);
 		}
 	}
 
