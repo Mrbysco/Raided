@@ -79,7 +79,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 	@Override
 	protected void onHit(HitResult result) {
 		super.onHit(result);
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.discard();
 		}
 	}
@@ -95,23 +95,23 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 	}
 
 	private void convertEntity(Entity entity) {
-		if (!level.isClientSide) {
+		if (!this.level().isClientSide) {
 			if (entity instanceof Creeper creeper) {
 				if (creeper.isAlive() && !creeper.isPowered()) {
-					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level);
+					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level());
 					bolt.setDamage(0);
-					creeper.thunderHit((ServerLevel) this.level, bolt);
+					creeper.thunderHit((ServerLevel) this.level(), bolt);
 				}
 			} else if (entity instanceof Pig pig) {
 				if (pig.isAlive()) {
-					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level);
+					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level());
 					bolt.setDamage(0);
-					pig.thunderHit((ServerLevel) this.level, bolt);
+					pig.thunderHit((ServerLevel) this.level(), bolt);
 				}
 			} else if (entity instanceof AbstractVillager abstractVillager && !(abstractVillager instanceof WanderingTrader)) {
 				if (abstractVillager.isAlive()) {
-					ServerLevel level = (ServerLevel) this.level;
-					if (this.level.getDifficulty() != Difficulty.PEACEFUL && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
+					ServerLevel level = (ServerLevel) this.level();
+					if (this.level().getDifficulty() != Difficulty.PEACEFUL && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
 					})) {
 						Witch witch = EntityType.WITCH.create(level);
 						witch.moveTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());

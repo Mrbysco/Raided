@@ -172,14 +172,14 @@ public class Electromancer extends SpellcasterIllager {
 
 	public abstract class BoltUseSpellGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
 		protected void createBoltEntity(LivingEntity target) {
-			LightningProjectile lightningProjectile = new LightningProjectile(Electromancer.this.level, Electromancer.this, 0, 0, 0);
+			LightningProjectile lightningProjectile = new LightningProjectile(Electromancer.this.level(), Electromancer.this, 0, 0, 0);
 			double d1 = target.getX() - Electromancer.this.getX();
 			double d2 = target.getY(0.5D) - (Electromancer.this.getY(0.5D) + 2);
 			double d3 = target.getZ() - Electromancer.this.getZ();
 			double d4 = Math.sqrt(d1 * d1 + d3 * d3) * (double) 0.2F;
 			lightningProjectile.shoot(d1, d2 + d4, d3, 1.6F, 0);
 			lightningProjectile.setTarget(target.getUUID());
-			Electromancer.this.level.addFreshEntity(lightningProjectile);
+			Electromancer.this.level().addFreshEntity(lightningProjectile);
 		}
 	}
 
@@ -195,10 +195,10 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level, Electromancer.this)) {
+			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
-				List<Creeper> list = Electromancer.this.level.getNearbyEntities(Creeper.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
+				List<Creeper> list = Electromancer.this.level().getNearbyEntities(Creeper.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
 				if (list.isEmpty()) {
 					return false;
 				} else {
@@ -257,10 +257,10 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level, Electromancer.this)) {
+			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
-				List<Pig> list = Electromancer.this.level.getNearbyEntities(Pig.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
+				List<Pig> list = Electromancer.this.level().getNearbyEntities(Pig.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
 				if (list.isEmpty()) {
 					return false;
 				} else {
@@ -319,10 +319,10 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level, Electromancer.this)) {
+			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
-				List<AbstractVillager> list = Electromancer.this.level.getNearbyEntities(AbstractVillager.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
+				List<AbstractVillager> list = Electromancer.this.level().getNearbyEntities(AbstractVillager.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
 				if (list.isEmpty()) {
 					return false;
 				} else {
@@ -343,7 +343,7 @@ public class Electromancer extends SpellcasterIllager {
 
 		protected void performSpellCasting() {
 			AbstractVillager abstractVillager = Electromancer.this.getWitchificationTarget();
-			if (!level.isClientSide && abstractVillager != null && abstractVillager.isAlive()) {
+			if (!Electromancer.this.level().isClientSide && abstractVillager != null && abstractVillager.isAlive()) {
 				createBoltEntity(abstractVillager);
 			}
 		}

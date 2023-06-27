@@ -57,7 +57,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 
 	public Incinerator(EntityType<? extends AbstractIllager> entityType, Level level) {
 		super(entityType, level);
-		this.maxUpStep = 1.0F;
+		setMaxUpStep(1.0F);
 
 		switchHealth = 0;
 		animationPlay = false;
@@ -134,9 +134,9 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 		double f1 = Mth.sqrt(distanceFactor) * 0.5D;
 
 		for (int i = 0; i < 3; ++i) {
-			IncineratorFireball fireball = new IncineratorFireball(level, this, d0 + random.nextGaussian() * f1, d1, d2 + random.nextGaussian() * f1);
+			IncineratorFireball fireball = new IncineratorFireball(this.level(), this, d0 + random.nextGaussian() * f1, d1, d2 + random.nextGaussian() * f1);
 			fireball.setPos(fireball.getX(), fireball.getY() + getBbHeight() / 2.0D + 0.5D, fireball.getZ());
-			level.addFreshEntity(fireball);
+			this.level().addFreshEntity(fireball);
 		}
 
 		setThrowing(true);

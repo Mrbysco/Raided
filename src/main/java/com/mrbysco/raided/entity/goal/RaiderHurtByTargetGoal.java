@@ -23,7 +23,7 @@ public class RaiderHurtByTargetGoal extends TargetGoal {
 
 	public boolean canUse() {
 		if (this.savager.tickCount % 10 != 0) {
-			for (Raider raider : savager.level.getEntitiesOfClass(Raider.class, savager.getBoundingBox().inflate(4.0D), (entity) -> entity.isAlive() && !(entity instanceof Savager))) {
+			for (Raider raider : savager.level().getEntitiesOfClass(Raider.class, savager.getBoundingBox().inflate(4.0D), (entity) -> entity.isAlive() && !(entity instanceof Savager))) {
 				this.ownerLastHurtBy = raider.getLastHurtByMob();
 				int i = raider.getLastHurtByMobTimestamp();
 				this.raider = raider;

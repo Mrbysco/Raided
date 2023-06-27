@@ -42,7 +42,7 @@ public class IncineratorFireball extends SmallFireball {
 
 	@Override
 	protected void onHitEntity(EntityHitResult entityHitResult) {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			Entity entity = entityHitResult.getEntity();
 			if (!(entity instanceof Raider) && !entity.fireImmune()) {
 				Entity owner = this.getOwner();

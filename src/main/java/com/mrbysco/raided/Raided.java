@@ -10,9 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -55,9 +54,10 @@ public class Raided {
 		RaidedSetup.initializeRaiderTypes();
 	}
 
-	private void addTabContents(final CreativeModeTabEvent.BuildContents event) {
-		if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
-			List<ItemStack> stacks = RaidedRegistry.ITEMS.getEntries().stream().filter(reg -> reg.get() instanceof SpawnEggItem).map(reg -> new ItemStack(reg.get())).toList();
+	private void addTabContents(final BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+			List<ItemStack> stacks = RaidedRegistry.ITEMS.getEntries().stream().filter(reg ->
+					reg.get() instanceof SpawnEggItem).map(reg -> new ItemStack(reg.get())).toList();
 			event.acceptAll(stacks);
 		}
 	}

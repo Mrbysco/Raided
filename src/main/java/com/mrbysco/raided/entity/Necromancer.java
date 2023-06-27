@@ -73,7 +73,7 @@ public class Necromancer extends AbstractIllager {
 	}
 
 	public boolean isHealing() {
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			return this.entityData.get(HEALING);
 		} else {
 			return this.healingTickCount > 0;

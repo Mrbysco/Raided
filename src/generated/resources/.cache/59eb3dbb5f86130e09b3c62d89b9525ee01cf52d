@@ -1,6 +1,6 @@
-// 1.19.4	2023-04-23T00:07:31.4739931	Loot Tables
-ef017fe8afbc1e704a7cfb4818ece7ba018f9c91 data/raided/loot_tables/entities/electromancer.json
-ef017fe8afbc1e704a7cfb4818ece7ba018f9c91 data/raided/loot_tables/entities/incinerator.json
-ef017fe8afbc1e704a7cfb4818ece7ba018f9c91 data/raided/loot_tables/entities/inquisitor.json
-ef017fe8afbc1e704a7cfb4818ece7ba018f9c91 data/raided/loot_tables/entities/necromancer.json
-ef017fe8afbc1e704a7cfb4818ece7ba018f9c91 data/raided/loot_tables/entities/savager.json
+// 1.20.1	2023-06-27T22:55:27.3913203	Loot Tables
+7689166ee8f9637411e73b1266547dbe6dc1c679 data/raided/loot_tables/entities/electromancer.json
+595977f5cbc5dd858917b270ef3ff6dedbfc121f data/raided/loot_tables/entities/incinerator.json
+e407c61c30f7fcf5fd77bd6ab2c97132b3eea050 data/raided/loot_tables/entities/inquisitor.json
+5ddf5e9d47842d9ffba0e961d3144e4be5ead4bf data/raided/loot_tables/entities/necromancer.json
+8fc7c64262b4fad2579ffeaaf2c012cdeeea4fce data/raided/loot_tables/entities/savager.json
