@@ -6,12 +6,12 @@ import com.mrbysco.raided.entity.Incinerator;
 import com.mrbysco.raided.entity.Inquisitor;
 import com.mrbysco.raided.entity.Necromancer;
 import com.mrbysco.raided.entity.Savager;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.entity.raid.Raider;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class RaidedSetup {
 			intArray[i] = listValue.get(i);
 		}
 
-		ResourceLocation key = ForgeRegistries.ENTITY_TYPES.getKey(type);
+		ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(type);
 		if (key != null) {
 			Raid.RaiderType.create(key.toString(), type, intArray);
 		}

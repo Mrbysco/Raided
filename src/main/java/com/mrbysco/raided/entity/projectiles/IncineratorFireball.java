@@ -14,8 +14,8 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.PlayMessages.SpawnEntity;
 
 public class IncineratorFireball extends SmallFireball {
 	public IncineratorFireball(EntityType<? extends IncineratorFireball> entityType, Level level) {

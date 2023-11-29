@@ -8,7 +8,6 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
@@ -26,8 +25,9 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -49,7 +49,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), x, y, z, offsetX, offsetY, offsetZ, level);
 	}
 
-	public LightningProjectile(SpawnEntity spawnEntity, Level level) {
+	public LightningProjectile(PlayMessages.SpawnEntity spawnEntity, Level level) {
 		this(RaidedRegistry.LIGHTNING_PROJECTILE.get(), level);
 	}
 
@@ -111,7 +111,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 			} else if (entity instanceof AbstractVillager abstractVillager && !(abstractVillager instanceof WanderingTrader)) {
 				if (abstractVillager.isAlive()) {
 					ServerLevel level = (ServerLevel) this.level();
-					if (this.level().getDifficulty() != Difficulty.PEACEFUL && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
+					if (this.level().getDifficulty() != Difficulty.PEACEFUL && EventHooks.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
 					})) {
 						Witch witch = EntityType.WITCH.create(level);
 						witch.moveTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());
@@ -123,7 +123,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 						}
 
 						witch.setPersistenceRequired();
-						net.minecraftforge.event.ForgeEventFactory.onLivingConvert(abstractVillager, witch);
+						EventHooks.onLivingConvert(abstractVillager, witch);
 						level.addFreshEntityWithPassengers(witch);
 						if (abstractVillager instanceof Villager villager) {
 							villager.releaseAllPois();

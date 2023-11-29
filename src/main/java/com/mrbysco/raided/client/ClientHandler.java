@@ -17,7 +17,7 @@ import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class ClientHandler {
 	public static final ModelLayerLocation INQUISITOR = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "inquisitor"), "main");

@@ -16,18 +16,19 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.common.data.SoundDefinitionsProvider;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -72,7 +73,7 @@ public class RaidedDatagen {
 
 			@Override
 			protected Stream<EntityType<?>> getKnownEntityTypes() {
-				return RaidedRegistry.ENTITY_TYPES.getEntries().stream().map(RegistryObject::get);
+				return RaidedRegistry.ENTITY_TYPES.getEntries().stream().map(Supplier::get);
 			}
 		}
 
@@ -185,7 +186,7 @@ public class RaidedDatagen {
 
 		@Override
 		protected void registerModels() {
-			for (RegistryObject<Item> item : RaidedRegistry.ITEMS.getEntries()) {
+			for (DeferredHolder<Item, ? extends Item> item : RaidedRegistry.ITEMS.getEntries()) {
 				if (item.get() instanceof SpawnEggItem) {
 					withExistingParent(item.getId().getPath(), new ResourceLocation("item/template_spawn_egg"));
 				}

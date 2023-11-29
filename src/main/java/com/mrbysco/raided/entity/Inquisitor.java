@@ -28,7 +28,6 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -175,15 +174,6 @@ public class Inquisitor extends AbstractIllager {
 	static class InquisitorMeleeAttackGoal extends MeleeAttackGoal {
 		public InquisitorMeleeAttackGoal(Inquisitor inquisitor) {
 			super(inquisitor, 1.0D, false);
-		}
-
-		protected double getAttackReachSqr(LivingEntity livingEntity) {
-			if (this.mob.getVehicle() instanceof Ravager) {
-				float f = this.mob.getVehicle().getBbWidth() - 0.1F;
-				return (double) (f * 2.0F * f * 2.0F + livingEntity.getBbWidth());
-			} else {
-				return super.getAttackReachSqr(livingEntity);
-			}
 		}
 	}
 }

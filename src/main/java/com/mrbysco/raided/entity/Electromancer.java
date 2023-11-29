@@ -28,6 +28,7 @@ import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -195,7 +196,7 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
 				List<Creeper> list = Electromancer.this.level().getNearbyEntities(Creeper.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
@@ -257,7 +258,7 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
 				List<Pig> list = Electromancer.this.level().getNearbyEntities(Pig.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
@@ -319,7 +320,7 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
 				List<AbstractVillager> list = Electromancer.this.level().getNearbyEntities(AbstractVillager.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));

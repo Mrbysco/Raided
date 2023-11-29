@@ -5,22 +5,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.raid.Raider;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public class RaidRegHelper<T extends Raider> {
 	protected final String name;
-	protected final RegistryObject<EntityType<? extends T>> entityType;
-	protected final RegistryObject<Item> spawnEgg;
+	protected final Supplier<EntityType<? extends T>> entityType;
+	protected final DeferredItem<DeferredSpawnEggItem> spawnEgg;
 
-	protected RegistryObject<SoundEvent> AMBIENT;
-	protected RegistryObject<SoundEvent> DEATH;
-	protected RegistryObject<SoundEvent> HURT;
-	protected RegistryObject<SoundEvent> CELEBRATE;
-	protected RegistryObject<SoundEvent> CASTING;
+	protected DeferredHolder<SoundEvent, SoundEvent> AMBIENT;
+	protected DeferredHolder<SoundEvent, SoundEvent> DEATH;
+	protected DeferredHolder<SoundEvent, SoundEvent> HURT;
+	protected DeferredHolder<SoundEvent, SoundEvent> CELEBRATE;
+	protected DeferredHolder<SoundEvent, SoundEvent> CASTING;
 
 	/**
 	 * @return The registry name of the raider
@@ -40,7 +42,7 @@ public class RaidRegHelper<T extends Raider> {
 	/**
 	 * @return The spawn egg item registry object of the raider.
 	 */
-	public RegistryObject<Item> getSpawnEgg() {
+	public DeferredItem<DeferredSpawnEggItem> getSpawnEgg() {
 		return spawnEgg;
 	}
 
@@ -82,7 +84,7 @@ public class RaidRegHelper<T extends Raider> {
 	public RaidRegHelper(String name, EntityType.Builder<T> builder, int backgroundColor, int highlightColor, boolean casting) {
 		this.name = name;
 		this.entityType = RaidedRegistry.ENTITY_TYPES.register(name, () -> builder.build(name));
-		this.spawnEgg = RaidedRegistry.ITEMS.register(name + "_spawn_egg", () -> new ForgeSpawnEggItem(this.entityType, backgroundColor, highlightColor,
+		this.spawnEgg = RaidedRegistry.ITEMS.register(name + "_spawn_egg", () -> new DeferredSpawnEggItem(this.entityType, backgroundColor, highlightColor,
 				(new Item.Properties())));
 
 		this.AMBIENT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".ambient", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".ambient")));
