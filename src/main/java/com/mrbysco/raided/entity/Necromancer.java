@@ -27,7 +27,7 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 
 public class Necromancer extends AbstractIllager {
-	private static final EntityDataAccessor<Boolean> HEALING = SynchedEntityData.defineId(Inquisitor.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> HEALING = SynchedEntityData.defineId(Necromancer.class, EntityDataSerializers.BOOLEAN);
 
 	protected int healingTickCount;
 
@@ -50,7 +50,7 @@ public class Necromancer extends AbstractIllager {
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Monster.createMonsterAttributes()
-				.add(Attributes.MOVEMENT_SPEED, (double) 0.25F)
+				.add(Attributes.MOVEMENT_SPEED, 0.25D)
 				.add(Attributes.FOLLOW_RANGE, 32.0D)
 				.add(Attributes.MAX_HEALTH, 20.0D)
 				.add(Attributes.ATTACK_DAMAGE, 2.0D);
