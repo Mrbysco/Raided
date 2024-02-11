@@ -4,8 +4,6 @@ import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
@@ -25,9 +23,7 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.network.NetworkHooks;
 import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -47,10 +43,6 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 
 	public LightningProjectile(Level level, double x, double y, double z, double offsetX, double offsetY, double offsetZ) {
 		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), x, y, z, offsetX, offsetY, offsetZ, level);
-	}
-
-	public LightningProjectile(PlayMessages.SpawnEntity spawnEntity, Level level) {
-		this(RaidedRegistry.LIGHTNING_PROJECTILE.get(), level);
 	}
 
 	@Override
@@ -138,10 +130,5 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 	@Override
 	public boolean canCollideWith(Entity entity) {
 		return !(entity instanceof Raider) && super.canCollideWith(entity);
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

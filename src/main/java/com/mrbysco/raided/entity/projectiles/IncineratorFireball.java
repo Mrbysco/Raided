@@ -3,8 +3,6 @@ package com.mrbysco.raided.entity.projectiles;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -14,8 +12,6 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.neoforged.neoforge.network.NetworkHooks;
-import net.neoforged.neoforge.network.PlayMessages.SpawnEntity;
 
 public class IncineratorFireball extends SmallFireball {
 	public IncineratorFireball(EntityType<? extends IncineratorFireball> entityType, Level level) {
@@ -24,10 +20,6 @@ public class IncineratorFireball extends SmallFireball {
 
 	public IncineratorFireball(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ) {
 		super(level, shooter, accelX, accelY, accelZ);
-	}
-
-	public IncineratorFireball(SpawnEntity spawnEntity, Level level) {
-		this(RaidedRegistry.INCINERATOR_FIREBALL.get(), level);
 	}
 
 	@Override
@@ -70,10 +62,5 @@ public class IncineratorFireball extends SmallFireball {
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		return false;
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

@@ -34,8 +34,7 @@ public class RaidedRegistry {
 
 	public static final Supplier<EntityType<IncineratorFireball>> INCINERATOR_FIREBALL = ENTITY_TYPES.register("incinerator_fireball",
 			() -> register("incinerator_fireball", EntityType.Builder.<IncineratorFireball>of(IncineratorFireball::new, MobCategory.MISC)
-					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
-					.setCustomClientFactory(IncineratorFireball::new)));
+					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)));
 
 	public static final RaidRegHelper<Savager> SAVAGER = new RaidRegHelper("savager",
 			EntityType.Builder.<Savager>of(Savager::new, MobCategory.MONSTER)
@@ -51,8 +50,7 @@ public class RaidedRegistry {
 
 	public static final Supplier<EntityType<LightningProjectile>> LIGHTNING_PROJECTILE = ENTITY_TYPES.register("lightning",
 			() -> register("lightning", EntityType.Builder.<LightningProjectile>of(LightningProjectile::new, MobCategory.MISC)
-					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)
-					.setCustomClientFactory(LightningProjectile::new)));
+					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10)));
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> ELECROMANCER_PREPARE_CONVERSION = SOUND_EVENTS.register("entity.electromancer.prepare_conversion", () ->
 			SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity.electromancer.prepare_conversion")));
