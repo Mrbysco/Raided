@@ -1,0 +1,1 @@
+* Fix a mistake in the Necromancer class
