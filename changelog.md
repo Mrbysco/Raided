@@ -1,1 +1,1 @@
-* Initial update to 1.20
+* Fix a mistake in the Necromancer class
