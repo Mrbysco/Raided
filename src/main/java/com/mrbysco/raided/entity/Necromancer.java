@@ -27,7 +27,7 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 
 public class Necromancer extends AbstractIllager {
-	private static final EntityDataAccessor<Boolean> HEALING = SynchedEntityData.defineId(Inquisitor.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> HEALING = SynchedEntityData.defineId(Necromancer.class, EntityDataSerializers.BOOLEAN);
 
 	protected int healingTickCount;
 
