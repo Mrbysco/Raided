@@ -3,12 +3,15 @@ package com.mrbysco.raided.datagen;
 import com.mrbysco.raided.Raided;
 import com.mrbysco.raided.registry.RaidRegHelper;
 import com.mrbysco.raided.registry.RaidedRegistry;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.WritableRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -17,7 +20,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -26,12 +29,12 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class RaidedDatagen {
 
 	@SubscribeEvent
@@ -41,7 +44,7 @@ public class RaidedDatagen {
 		PackOutput packOutput = generator.getPackOutput();
 
 		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new Loots(packOutput));
+			generator.addProvider(event.includeServer(), new Loots(packOutput, event.getLookupProvider()));
 		}
 		if (event.includeClient()) {
 			generator.addProvider(event.includeClient(), new Language(packOutput));
@@ -51,10 +54,10 @@ public class RaidedDatagen {
 	}
 
 	private static class Loots extends LootTableProvider {
-		public Loots(PackOutput packOutput) {
+		public Loots(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
 			super(packOutput, Set.of(), List.of(
 					new SubProviderEntry(RaidedLootTables::new, LootContextParamSets.ENTITY)
-			));
+			), lookupProvider);
 		}
 
 		public static class RaidedLootTables extends EntityLootSubProvider {
@@ -78,8 +81,8 @@ public class RaidedDatagen {
 		}
 
 		@Override
-		protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationContext) {
-			map.forEach((name, table) -> table.validate(validationContext));
+		protected void validate(WritableRegistry<LootTable> writableregistry, ValidationContext validationcontext, ProblemReporter.Collector problemreporter$collector) {
+			super.validate(writableregistry, validationcontext, problemreporter$collector);
 		}
 	}
 

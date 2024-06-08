@@ -7,12 +7,12 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -35,6 +35,7 @@ public class Necromancer extends AbstractIllager {
 		super(entityType, level);
 	}
 
+	@Override
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -57,16 +58,18 @@ public class Necromancer extends AbstractIllager {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(HEALING, false);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(HEALING, false);
 	}
 
+	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 		this.healingTickCount = tag.getInt("HealingTicks");
 	}
 
+	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("HealingTicks", this.healingTickCount);
@@ -93,10 +96,11 @@ public class Necromancer extends AbstractIllager {
 		}
 	}
 
+	@Override
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getMobType() == MobType.ILLAGER) {
+		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
 			return this.getTeam() == null && entity.getTeam() == null;
 		} else {
 			return false;
@@ -134,14 +138,17 @@ public class Necromancer extends AbstractIllager {
 		return false;
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return RaidedRegistry.NECROMANCER.getAmbient();
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return RaidedRegistry.NECROMANCER.getDeath();
 	}
 
+	@Override
 	protected SoundEvent getHurtSound(DamageSource p_33306_) {
 		return RaidedRegistry.NECROMANCER.getHurt();
 	}

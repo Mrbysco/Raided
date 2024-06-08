@@ -60,10 +60,12 @@ public class Savager extends Raider {
 				.add(Attributes.FOLLOW_RANGE, 24.0D);
 	}
 
+	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 	}
 
+	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 	}
@@ -73,14 +75,15 @@ public class Savager extends Raider {
 
 	}
 
+	@Override
 	@Nullable
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
-										@Nullable SpawnGroupData groupData, @Nullable CompoundTag tag) {
-		SpawnGroupData spawngroupdata = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData, tag);
+	                                    @Nullable SpawnGroupData groupData) {
+		groupData = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData);
 
 		this.setCanPickUpLoot(false);
 
-		return spawngroupdata;
+		return groupData;
 	}
 
 	@Override
@@ -88,14 +91,17 @@ public class Savager extends Raider {
 		return false;
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return RaidedRegistry.SAVAGER.getAmbient();
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return RaidedRegistry.SAVAGER.getDeath();
 	}
 
+	@Override
 	protected SoundEvent getHurtSound(DamageSource p_33306_) {
 		return RaidedRegistry.SAVAGER.getHurt();
 	}

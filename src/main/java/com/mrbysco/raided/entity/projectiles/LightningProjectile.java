@@ -107,7 +107,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 					})) {
 						Witch witch = EntityType.WITCH.create(level);
 						witch.moveTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());
-						witch.finalizeSpawn(level, level.getCurrentDifficultyAt(witch.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
+						EventHooks.finalizeMobSpawn(witch, level, level.getCurrentDifficultyAt(witch.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null);
 						witch.setNoAi(abstractVillager.isNoAi());
 						if (abstractVillager.hasCustomName()) {
 							witch.setCustomName(abstractVillager.getCustomName());

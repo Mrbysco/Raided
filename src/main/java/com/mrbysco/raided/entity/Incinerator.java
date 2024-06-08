@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,7 +18,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -57,7 +57,6 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 
 	public Incinerator(EntityType<? extends AbstractIllager> entityType, Level level) {
 		super(entityType, level);
-		setMaxUpStep(1.0F);
 
 		switchHealth = 0;
 		animationPlay = false;
@@ -80,10 +79,10 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(THROWING_DATA, false);
-		this.entityData.define(WEAPON_TYPE_DATA, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(THROWING_DATA, false);
+		builder.define(WEAPON_TYPE_DATA, 0);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -93,14 +92,17 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 				.add(Attributes.ATTACK_DAMAGE, 3.0D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 				.add(Attributes.ARMOR, 2.0D)
-				.add(Attributes.FOLLOW_RANGE, 32.0D);
+				.add(Attributes.FOLLOW_RANGE, 32.0D)
+				.add(Attributes.STEP_HEIGHT, 1.0F);
 	}
 
+	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("WeaponType", getWeaponType());
 	}
 
+	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 		if (tag.contains("WeaponType")) {
@@ -147,15 +149,16 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	@Override
 	public boolean doHurtTarget(Entity entity) {
 		if (super.doHurtTarget(entity)) {
-			entity.setSecondsOnFire(4);
+			entity.setRemainingFireTicks(20 * 4);
 		}
 		return true;
 	}
 
+	@Override
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getMobType() == MobType.ILLAGER) {
+		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
 			return this.getTeam() == null && entity.getTeam() == null;
 		} else {
 			return false;
@@ -197,14 +200,17 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 		return false;
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return RaidedRegistry.INCINERATOR.getAmbient();
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return RaidedRegistry.INCINERATOR.getDeath();
 	}
 
+	@Override
 	protected SoundEvent getHurtSound(DamageSource p_33306_) {
 		return RaidedRegistry.INCINERATOR.getHurt();
 	}
@@ -214,15 +220,16 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 		return RaidedRegistry.INCINERATOR.getCelebrate();
 	}
 
+	@Override
 	@Nullable
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
-										@Nullable SpawnGroupData groupData, @Nullable CompoundTag tag) {
-		SpawnGroupData spawngroupdata = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData, tag);
+	                                    @Nullable SpawnGroupData groupData) {
+		groupData = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData);
 
 		this.setCanPickUpLoot(random.nextFloat() < 0.55F * difficultyInstance.getSpecialMultiplier());
 		setCombatGoal();
 
-		return spawngroupdata;
+		return groupData;
 	}
 
 	private void setCombatGoal() {

@@ -4,13 +4,14 @@ import com.mrbysco.raided.entity.goal.WalkToRaiderGoal;
 import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -47,6 +48,7 @@ public class Electromancer extends SpellcasterIllager {
 		super(entityType, level);
 	}
 
+	@Override
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -73,14 +75,16 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 	}
 
+	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 	}
 
+	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 	}
@@ -121,10 +125,11 @@ public class Electromancer extends SpellcasterIllager {
 		return this.witchificationTarget;
 	}
 
+	@Override
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getMobType() == MobType.ILLAGER) {
+		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
 			return this.getTeam() == null && entity.getTeam() == null;
 		} else {
 			return false;
@@ -136,14 +141,17 @@ public class Electromancer extends SpellcasterIllager {
 
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return RaidedRegistry.ELECTROMANCER.getAmbient();
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return RaidedRegistry.ELECTROMANCER.getDeath();
 	}
 
+	@Override
 	protected SoundEvent getHurtSound(DamageSource p_33306_) {
 		return RaidedRegistry.ELECTROMANCER.getHurt();
 	}
@@ -196,7 +204,7 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!EventHooks.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.canEntityGrief(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
 				List<Creeper> list = Electromancer.this.level().getNearbyEntities(Creeper.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
@@ -258,7 +266,7 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!EventHooks.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.canEntityGrief(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
 				List<Pig> list = Electromancer.this.level().getNearbyEntities(Pig.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
@@ -320,7 +328,7 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!EventHooks.getMobGriefingEvent(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.canEntityGrief(Electromancer.this.level(), Electromancer.this)) {
 				return false;
 			} else {
 				List<AbstractVillager> list = Electromancer.this.level().getNearbyEntities(AbstractVillager.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));

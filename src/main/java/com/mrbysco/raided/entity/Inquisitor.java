@@ -6,6 +6,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -63,9 +63,9 @@ public class Inquisitor extends AbstractIllager {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(INQUISITOR_TYPE, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(INQUISITOR_TYPE, 0);
 	}
 
 	public int getInquisitorType() {
@@ -94,10 +94,11 @@ public class Inquisitor extends AbstractIllager {
 		this.setInquisitorType(tag.getInt("InquisitorType"));
 	}
 
+	@Override
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getMobType() == MobType.ILLAGER) {
+		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
 			return this.getTeam() == null && entity.getTeam() == null;
 		} else {
 			return false;
@@ -143,10 +144,12 @@ public class Inquisitor extends AbstractIllager {
 		return RaidedRegistry.INQUISITOR.getAmbient();
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return RaidedRegistry.INQUISITOR.getDeath();
 	}
 
+	@Override
 	protected SoundEvent getHurtSound(DamageSource p_33306_) {
 		return RaidedRegistry.INQUISITOR.getHurt();
 	}
@@ -156,10 +159,11 @@ public class Inquisitor extends AbstractIllager {
 		return RaidedRegistry.INQUISITOR.getCelebrate();
 	}
 
+	@Override
 	@Nullable
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
-										@Nullable SpawnGroupData groupData, @Nullable CompoundTag tag) {
-		SpawnGroupData spawngroupdata = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData, tag);
+	                                    @Nullable SpawnGroupData groupData) {
+		groupData = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData);
 		((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);
 
 		this.setInquisitorType(random.nextInt(3) + 1);
@@ -168,7 +172,7 @@ public class Inquisitor extends AbstractIllager {
 		this.populateDefaultEquipmentEnchantments(random, difficultyInstance);
 		this.setCanPickUpLoot(random.nextFloat() < 0.55F * difficultyInstance.getSpecialMultiplier());
 
-		return spawngroupdata;
+		return groupData;
 	}
 
 	static class InquisitorMeleeAttackGoal extends MeleeAttackGoal {

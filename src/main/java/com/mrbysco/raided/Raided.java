@@ -8,12 +8,12 @@ import com.mrbysco.raided.registry.RaidedSetup;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.apache.logging.log4j.LogManager;
@@ -26,8 +26,8 @@ public class Raided {
 	public static final String MOD_ID = "raided";
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public Raided(IEventBus eventBus) {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, RaidedConfig.commonSpec);
+	public Raided(IEventBus eventBus, ModContainer container, Dist dist) {
+		container.registerConfig(ModConfig.Type.COMMON, RaidedConfig.commonSpec);
 		eventBus.register(RaidedConfig.class);
 
 		eventBus.addListener(this::setup);
@@ -41,7 +41,7 @@ public class Raided {
 
 		eventBus.addListener(RaidedSetup::registerEntityAttributes);
 
-		if (FMLEnvironment.dist.isClient()) {
+		if (dist.isClient()) {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 		}
