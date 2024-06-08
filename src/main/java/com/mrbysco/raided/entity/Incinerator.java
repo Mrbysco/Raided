@@ -149,7 +149,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	@Override
 	public boolean doHurtTarget(Entity entity) {
 		if (super.doHurtTarget(entity)) {
-			entity.setRemainingFireTicks(20 * 4);
+			entity.igniteForTicks(4);
 		}
 		return true;
 	}

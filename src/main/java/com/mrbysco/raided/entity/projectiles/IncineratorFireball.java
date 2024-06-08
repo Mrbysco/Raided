@@ -39,10 +39,10 @@ public class IncineratorFireball extends SmallFireball {
 			if (!(entity instanceof Raider) && !entity.fireImmune()) {
 				Entity owner = this.getOwner();
 				int i = entity.getRemainingFireTicks();
-				entity.setRemainingFireTicks(20 * 4);
+				entity.igniteForTicks(4);
 				boolean flag = entity.hurt(damageSources().fireball(this, owner), 5.0F);
 				if (!flag) {
-					entity.setRemainingFireTicks(i);
+					entity.igniteForTicks(i);
 				} else if (owner instanceof LivingEntity) {
 					this.doEnchantDamageEffects((LivingEntity) owner, entity);
 				}
