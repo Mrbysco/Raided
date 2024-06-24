@@ -1,1 +1,1 @@
-* Fix fire setting behavior being wrong
+* Initial update to 1.21
