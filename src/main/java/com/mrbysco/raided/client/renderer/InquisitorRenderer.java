@@ -13,9 +13,9 @@ import java.util.List;
 
 public class InquisitorRenderer extends MobRenderer<Inquisitor, InquisitorModel> {
 	private static final List<ResourceLocation> TEXTURES = List.of(
-			new ResourceLocation(Raided.MOD_ID, "textures/entity/illager/inquisitor01.png"),
-			new ResourceLocation(Raided.MOD_ID, "textures/entity/illager/inquisitor02.png"),
-			new ResourceLocation(Raided.MOD_ID, "textures/entity/illager/inquisitor03.png"));
+			ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/inquisitor01.png"),
+			ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/inquisitor02.png"),
+			ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/inquisitor03.png"));
 
 	public InquisitorRenderer(EntityRendererProvider.Context context) {
 		super(context, new InquisitorModel(context.bakeLayer(ClientHandler.INQUISITOR)), 0.4F);

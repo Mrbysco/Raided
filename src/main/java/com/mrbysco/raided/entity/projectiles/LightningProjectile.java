@@ -23,6 +23,7 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
@@ -36,13 +37,13 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 		super(entityType, level);
 	}
 
-	public LightningProjectile(Level level, LivingEntity shooter, double offsetX, double offsetY, double offsetZ) {
-		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), shooter, offsetX, offsetY, offsetZ, level);
+	public LightningProjectile(Level level, LivingEntity shooter, Vec3 movement) {
+		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), shooter, movement, level);
 		this.moveTo(shooter.getX(), shooter.getY() + 2, shooter.getZ(), this.getYRot(), this.getXRot());
 	}
 
-	public LightningProjectile(Level level, double x, double y, double z, double offsetX, double offsetY, double offsetZ) {
-		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), x, y, z, offsetX, offsetY, offsetZ, level);
+	public LightningProjectile(Level level, double x, double y, double z, Vec3 movement) {
+		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), x, y, z, movement, level);
 	}
 
 	@Override

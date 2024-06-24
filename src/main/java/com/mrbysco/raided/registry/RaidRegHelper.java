@@ -87,12 +87,12 @@ public class RaidRegHelper<T extends Raider> {
 		this.spawnEgg = RaidedRegistry.ITEMS.register(name + "_spawn_egg", () -> new DeferredSpawnEggItem(this.entityType, backgroundColor, highlightColor,
 				(new Item.Properties())));
 
-		this.AMBIENT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".ambient", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".ambient")));
-		this.DEATH = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".death", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".death")));
-		this.HURT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".hurt", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".hurt")));
-		this.CELEBRATE = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".celebrate", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".celebrate")));
+		this.AMBIENT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".ambient", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".ambient")));
+		this.DEATH = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".death", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".death")));
+		this.HURT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".hurt", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".hurt")));
+		this.CELEBRATE = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".celebrate", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".celebrate")));
 		if (casting) {
-			this.CASTING = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".casting", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Raided.MOD_ID, "entity." + name + ".casting")));
+			this.CASTING = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".casting", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".casting")));
 		}
 	}
 

@@ -5,6 +5,7 @@ import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,6 +30,7 @@ import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -137,7 +139,7 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean unused) {
+	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
 
 	}
 
@@ -181,7 +183,7 @@ public class Electromancer extends SpellcasterIllager {
 
 	public abstract class BoltUseSpellGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
 		protected void createBoltEntity(LivingEntity target) {
-			LightningProjectile lightningProjectile = new LightningProjectile(Electromancer.this.level(), Electromancer.this, 0, 0, 0);
+			LightningProjectile lightningProjectile = new LightningProjectile(Electromancer.this.level(), Electromancer.this, Vec3.ZERO);
 			double d1 = target.getX() - Electromancer.this.getX();
 			double d2 = target.getY(0.5D) - (Electromancer.this.getY(0.5D) + 2);
 			double d3 = target.getZ() - Electromancer.this.getZ();

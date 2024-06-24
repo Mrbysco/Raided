@@ -20,13 +20,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class ClientHandler {
-	public static final ModelLayerLocation INQUISITOR = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "inquisitor"), "main");
-	public static final ModelLayerLocation INCINERATOR = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "incinerator"), "main");
-	public static final ModelLayerLocation SAVAGER = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "savager"), "main");
-	public static final ModelLayerLocation NECROMANCER = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "necromancer"), "main");
-	public static final ModelLayerLocation ELECTROMANCER = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "electromancer"), "main");
+	public static final ModelLayerLocation INQUISITOR = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "inquisitor"), "main");
+	public static final ModelLayerLocation INCINERATOR = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "incinerator"), "main");
+	public static final ModelLayerLocation SAVAGER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "savager"), "main");
+	public static final ModelLayerLocation NECROMANCER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "necromancer"), "main");
+	public static final ModelLayerLocation ELECTROMANCER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "electromancer"), "main");
 
-	public static final ModelLayerLocation LIGHTNING_PROJECTILE = new ModelLayerLocation(new ResourceLocation(Raided.MOD_ID, "lightning_projectile"), "main");
+	public static final ModelLayerLocation LIGHTNING_PROJECTILE = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "lightning_projectile"), "main");
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(RaidedRegistry.INQUISITOR.getEntityType(), InquisitorRenderer::new);

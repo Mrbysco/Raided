@@ -3,6 +3,7 @@ package com.mrbysco.raided.entity;
 import com.mrbysco.raided.entity.goal.RaiderHurtByTargetGoal;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -71,7 +72,7 @@ public class Savager extends Raider {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean unused) {
+	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
 
 	}
 

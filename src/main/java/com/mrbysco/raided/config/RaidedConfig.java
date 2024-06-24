@@ -18,56 +18,31 @@ public class RaidedConfig {
 	protected static final Integer[] electromancerSpawns = new Integer[]{0, 1, 0, 2, 0, 1, 0, 0};
 
 	public static class Common {
-		public final BooleanValue spawnInquisitor;
 		public final ConfigValue<List<? extends Integer>> inquisitorSpawnsPerWave;
-		public final BooleanValue spawnIncinerator;
 		public final ConfigValue<List<? extends Integer>> incineratorSpawnsPerWave;
-		public final BooleanValue spawnSavager;
 		public final ConfigValue<List<? extends Integer>> savagerSpawnsPerWave;
-		public final BooleanValue spawnNecromancer;
 		public final ConfigValue<List<? extends Integer>> necromancerSpawnsPerWave;
-		public final BooleanValue spawnElectromancer;
 		public final ConfigValue<List<? extends Integer>> electromancerSpawnsPerWave;
 
 		Common(ModConfigSpec.Builder builder) {
 			builder.comment("General settings")
 					.push("General");
 
-			spawnInquisitor = builder
-					.comment("Enable Inquisitor spawning during raids based on the 'inquisitorSpawnsPerWave' setup")
-					.define("spawnInquisitor", true);
-
 			inquisitorSpawnsPerWave = builder
 					.comment("The spawns per wave for the Inquisitor before bonus spawns are applied (Must always have 8 values!)")
 					.defineList(List.of("inquisitorSpawnsPerWave"), () -> List.of(inquisitorSpawns), o -> (o instanceof Integer amount) && amount >= 0);
-
-			spawnIncinerator = builder
-					.comment("Enable Incinerator spawning during raids based on the 'incineratorSpawnsPerWave' setup")
-					.define("spawnIncinerator", true);
 
 			incineratorSpawnsPerWave = builder
 					.comment("The spawns per wave for the Incinerator before bonus spawns are applied (Must always have 8 values!)")
 					.defineList(List.of("incineratorSpawnsPerWave"), () -> List.of(incineratorSpawns), o -> (o instanceof Integer amount) && amount >= 0);
 
-			spawnSavager = builder
-					.comment("Enable Savager spawning during raids based on the 'savagerSpawnsPerWave' setup")
-					.define("spawnSavager", true);
-
 			savagerSpawnsPerWave = builder
 					.comment("The spawns per wave for the Savager before bonus spawns are applied (Must always have 8 values!)")
 					.defineList(List.of("savagerSpawnsPerWave"), () -> List.of(savagerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
 
-			spawnNecromancer = builder
-					.comment("Enable Necromancer spawning during raids based on the 'necromancerSpawnsPerWave' setup")
-					.define("spawnNecromancer", true);
-
 			necromancerSpawnsPerWave = builder
 					.comment("The spawns per wave for the Necromancer before bonus spawns are applied (Must always have 8 values!)")
 					.defineList(List.of("necromancerSpawnsPerWave"), () -> List.of(necromancerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
-
-			spawnElectromancer = builder
-					.comment("Enable Electromancer spawning during raids based on the 'electromancerSpawnsPerWave' setup")
-					.define("spawnElectromancer", true);
 
 			electromancerSpawnsPerWave = builder
 					.comment("The spawns per wave for the Electromancer before bonus spawns are applied (Must always have 8 values!)")

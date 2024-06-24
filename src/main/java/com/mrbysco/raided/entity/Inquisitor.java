@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
@@ -129,7 +130,7 @@ public class Inquisitor extends AbstractIllager {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean unused) {
+	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
 		if (random.nextFloat() < 0.25F) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD));
 		}
@@ -169,7 +170,7 @@ public class Inquisitor extends AbstractIllager {
 		this.setInquisitorType(random.nextInt(3) + 1);
 
 		this.populateDefaultEquipmentSlots(random, difficultyInstance);
-		this.populateDefaultEquipmentEnchantments(random, difficultyInstance);
+		this.populateDefaultEquipmentEnchantments(levelAccessor, random, difficultyInstance);
 		this.setCanPickUpLoot(random.nextFloat() < 0.55F * difficultyInstance.getSpecialMultiplier());
 
 		return groupData;

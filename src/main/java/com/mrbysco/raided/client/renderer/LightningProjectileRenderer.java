@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class LightningProjectileRenderer extends EntityRenderer<LightningProjectile> {
-	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Raided.MOD_ID, "textures/entity/projectile/lightning.png");
+	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/projectile/lightning.png");
 	private static final RenderType RENDER_TYPE = RenderType.entityTranslucent(TEXTURE_LOCATION);
 	private final ShulkerBulletModel<LightningProjectile> model;
 
@@ -42,10 +42,11 @@ public class LightningProjectileRenderer extends EntityRenderer<LightningProject
 		poseStack.scale(-0.5F, -0.5F, 0.5F);
 		this.model.setupAnim(projectile, 0.0F, 0.0F, 0.0F, f, f1);
 		VertexConsumer vertexconsumer = bufferSource.getBuffer(this.model.renderType(TEXTURE_LOCATION));
-		this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
 		poseStack.scale(1.5F, 1.5F, 1.5F);
 		VertexConsumer vertexConsumer = bufferSource.getBuffer(RENDER_TYPE);
-		this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.15F);
+		this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 654311423);
+
 		poseStack.popPose();
 		super.render(projectile, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
 	}

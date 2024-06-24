@@ -13,7 +13,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,6 @@ public class Raided {
 		container.registerConfig(ModConfig.Type.COMMON, RaidedConfig.commonSpec);
 		eventBus.register(RaidedConfig.class);
 
-		eventBus.addListener(this::setup);
 		eventBus.addListener(this::addTabContents);
 
 		RaidedRegistry.ITEMS.register(eventBus);
@@ -45,10 +43,6 @@ public class Raided {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 		}
-	}
-
-	private void setup(final FMLCommonSetupEvent event) {
-		RaidedSetup.initializeRaiderTypes();
 	}
 
 	private void addTabContents(final BuildCreativeModeTabContentsEvent event) {

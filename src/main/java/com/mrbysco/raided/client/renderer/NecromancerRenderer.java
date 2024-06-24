@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class NecromancerRenderer extends MobRenderer<Necromancer, NecromancerModel> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Raided.MOD_ID, "textures/entity/illager/necromancer.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/necromancer.png");
 
 	public NecromancerRenderer(EntityRendererProvider.Context context) {
 		super(context, new NecromancerModel(context.bakeLayer(ClientHandler.NECROMANCER)), 0.4F);

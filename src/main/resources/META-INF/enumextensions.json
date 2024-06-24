@@ -1,0 +1,49 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+      "name": "RAIDED_INQUISITOR",
+      "constructor": "(Ljava/util/function/Supplier;[I)V",
+      "parameters": {
+        "class": "com/mrbysco/raided/registry/RaidedRaiderTypes",
+        "field": "INQUISITOR"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+      "name": "RAIDED_INCINERATOR",
+      "constructor": "(Ljava/util/function/Supplier;[I)V",
+      "parameters": {
+        "class": "com/mrbysco/raided/registry/RaidedRaiderTypes",
+        "field": "INCINERATOR"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+      "name": "RAIDED_SAVAGER",
+      "constructor": "(Ljava/util/function/Supplier;[I)V",
+      "parameters": {
+        "class": "com/mrbysco/raided/registry/RaidedRaiderTypes",
+        "field": "SAVAGER"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+      "name": "RAIDED_NECROMANCER",
+      "constructor": "(Ljava/util/function/Supplier;[I)V",
+      "parameters": {
+        "class": "com/mrbysco/raided/registry/RaidedRaiderTypes",
+        "field": "NECROMANCER"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+      "name": "RAIDED_ELECTROMANCER",
+      "constructor": "(Ljava/util/function/Supplier;[I)V",
+      "parameters": {
+        "class": "com/mrbysco/raided/registry/RaidedRaiderTypes",
+        "field": "ELECTROMANCER"
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class ElectromancerRenderer extends MobRenderer<Electromancer, ElectromancerModel> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Raided.MOD_ID, "textures/entity/illager/electromancer.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/electromancer.png");
 
 	public ElectromancerRenderer(EntityRendererProvider.Context context) {
 		super(context, new ElectromancerModel(context.bakeLayer(ClientHandler.ELECTROMANCER)), 0.4F);

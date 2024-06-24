@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -108,7 +109,7 @@ public class Necromancer extends AbstractIllager {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean unused) {
+	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
 
 	}
 

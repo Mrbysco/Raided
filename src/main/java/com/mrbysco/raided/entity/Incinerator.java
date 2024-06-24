@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
@@ -35,12 +36,14 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -136,7 +139,8 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 		double f1 = Mth.sqrt(distanceFactor) * 0.5D;
 
 		for (int i = 0; i < 3; ++i) {
-			IncineratorFireball fireball = new IncineratorFireball(this.level(), this, d0 + random.nextGaussian() * f1, d1, d2 + random.nextGaussian() * f1);
+			Vec3 vec3 = new Vec3(this.getRandom().triangle(d1, 2.297 * f1), d2, this.getRandom().triangle(d2, 2.297 * f1));
+			IncineratorFireball fireball = new IncineratorFireball(this.level(), this, vec3.normalize());
 			fireball.setPos(fireball.getX(), fireball.getY() + getBbHeight() / 2.0D + 0.5D, fireball.getZ());
 			this.level().addFreshEntity(fireball);
 		}
@@ -189,7 +193,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	}
 
 	@Override
-	public void applyRaidBuffs(int wave, boolean unused) {
+	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
 		if (random.nextFloat() < 0.25F) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD));
 		}

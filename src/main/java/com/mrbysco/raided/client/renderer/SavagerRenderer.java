@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SavagerRenderer extends MobRenderer<Savager, SavagerModel<Savager>> {
-	private static final ResourceLocation SAVAGER_LOCATION = new ResourceLocation(Raided.MOD_ID, "textures/entity/illager/savager.png");
+	private static final ResourceLocation SAVAGER_LOCATION = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/savager.png");
 
 	public SavagerRenderer(EntityRendererProvider.Context context) {
 		super(context, new SavagerModel<>(context.bakeLayer(ClientHandler.SAVAGER)), 0.5F);
