@@ -4,7 +4,6 @@ import com.mrbysco.raided.Raided;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
 import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -76,7 +75,6 @@ public class RaidedConfig {
 					validateValue(COMMON.savagerSpawnsPerWave, savagerSpawns) ||
 					validateValue(COMMON.necromancerSpawnsPerWave, necromancerSpawns) ||
 					validateValue(COMMON.electromancerSpawnsPerWave, electromancerSpawns)) {
-				configEvent.getConfig().save();
 			}
 		}
 	}
