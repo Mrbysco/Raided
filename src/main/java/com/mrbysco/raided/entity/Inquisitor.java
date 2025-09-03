@@ -1,21 +1,18 @@
 package com.mrbysco.raided.entity;
 
 import com.mrbysco.raided.registry.RaidedRegistry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -38,6 +35,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import javax.annotation.Nullable;
 
@@ -85,34 +84,25 @@ public class Inquisitor extends AbstractIllager {
 				.add(Attributes.ATTACK_DAMAGE, 2.0D);
 	}
 
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putInt("InquisitorType", this.getInquisitorType());
-	}
-
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		this.setInquisitorType(tag.getInt("InquisitorType"));
+	@Override
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putInt("InquisitorType", this.getInquisitorType());
 	}
 
 	@Override
-	public boolean isAlliedTo(Entity entity) {
-		if (super.isAlliedTo(entity)) {
-			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
-			return this.getTeam() == null && entity.getTeam() == null;
-		} else {
-			return false;
-		}
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+		this.setInquisitorType(input.getIntOr("InquisitorType", 0));
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
 		if (hasShield()) {
 			Entity entity = source.getDirectEntity();
-			return !(entity instanceof Projectile) ? super.hurt(source, amount) : false;
+			return !(entity instanceof Projectile) ? super.hurtServer(level, source, amount) : false;
 		}
-		return super.hurt(source, amount);
+		return super.hurtServer(level, source, amount);
 	}
 
 	private boolean hasShield() {
@@ -130,7 +120,7 @@ public class Inquisitor extends AbstractIllager {
 	}
 
 	@Override
-	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
+	public void applyRaidBuffs(ServerLevel serverLevel, int wave, boolean unused) {
 		if (random.nextFloat() < 0.25F) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD));
 		}
@@ -162,7 +152,7 @@ public class Inquisitor extends AbstractIllager {
 
 	@Override
 	@Nullable
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, EntitySpawnReason spawnType,
 	                                    @Nullable SpawnGroupData groupData) {
 		groupData = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData);
 		((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);

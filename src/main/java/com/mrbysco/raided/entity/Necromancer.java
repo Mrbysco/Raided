@@ -2,17 +2,13 @@ package com.mrbysco.raided.entity;
 
 import com.mrbysco.raided.entity.goal.WalkToRaiderGoal;
 import com.mrbysco.raided.registry.RaidedRegistry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -26,6 +22,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class Necromancer extends AbstractIllager {
 	private static final EntityDataAccessor<Boolean> HEALING = SynchedEntityData.defineId(Necromancer.class, EntityDataSerializers.BOOLEAN);
@@ -65,15 +63,15 @@ public class Necromancer extends AbstractIllager {
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		this.healingTickCount = tag.getInt("HealingTicks");
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putInt("HealingTicks", this.healingTickCount);
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putInt("HealingTicks", this.healingTickCount);
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+		this.healingTickCount = input.getIntOr("HealingTicks", 0);
 	}
 
 	public boolean isHealing() {
@@ -98,23 +96,13 @@ public class Necromancer extends AbstractIllager {
 	}
 
 	@Override
-	public boolean isAlliedTo(Entity entity) {
-		if (super.isAlliedTo(entity)) {
-			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
-			return this.getTeam() == null && entity.getTeam() == null;
-		} else {
-			return false;
-		}
+	public void applyRaidBuffs(ServerLevel serverLevel, int wave, boolean unused) {
+
 	}
 
 	@Override
-	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
-
-	}
-
-	protected void customServerAiStep() {
-		super.customServerAiStep();
+	protected void customServerAiStep(ServerLevel level) {
+		super.customServerAiStep(level);
 		if (this.healingTickCount > 0) {
 			--this.healingTickCount;
 		} else {

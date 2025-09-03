@@ -3,13 +3,10 @@ package com.mrbysco.raided.entity;
 import com.mrbysco.raided.entity.goal.WalkToRaiderGoal;
 import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import com.mrbysco.raided.registry.RaidedRegistry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -30,6 +27,8 @@ import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
@@ -82,13 +81,13 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
 	}
 
 	@Override
@@ -128,18 +127,7 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	@Override
-	public boolean isAlliedTo(Entity entity) {
-		if (super.isAlliedTo(entity)) {
-			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
-			return this.getTeam() == null && entity.getTeam() == null;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
+	public void applyRaidBuffs(ServerLevel serverLevel, int wave, boolean unused) {
 
 	}
 
@@ -195,7 +183,7 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	public class CreeperConversionGoal extends BoltUseSpellGoal {
-		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity) -> {
+		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity, level) -> {
 			return !((Creeper) livingEntity).isPowered();
 		});
 
@@ -206,10 +194,10 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!EventHooks.canEntityGrief(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.canEntityGrief(getServerLevel(Electromancer.this.level()), Electromancer.this)) {
 				return false;
 			} else {
-				List<Creeper> list = Electromancer.this.level().getNearbyEntities(Creeper.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
+				List<Creeper> list = getServerLevel(Electromancer.this.level()).getNearbyEntities(Creeper.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
 				if (list.isEmpty()) {
 					return false;
 				} else {
@@ -257,7 +245,7 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	public class PigConversionGoal extends BoltUseSpellGoal {
-		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity) -> {
+		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity, level) -> {
 			return ((Pig) livingEntity).isAlive();
 		});
 
@@ -268,10 +256,10 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!EventHooks.canEntityGrief(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.canEntityGrief(getServerLevel(Electromancer.this.level()), Electromancer.this)) {
 				return false;
 			} else {
-				List<Pig> list = Electromancer.this.level().getNearbyEntities(Pig.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
+				List<Pig> list = getServerLevel(Electromancer.this.level()).getNearbyEntities(Pig.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
 				if (list.isEmpty()) {
 					return false;
 				} else {
@@ -319,7 +307,7 @@ public class Electromancer extends SpellcasterIllager {
 	}
 
 	public class WitchificationSpellGoal extends BoltUseSpellGoal {
-		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity) -> {
+		private final TargetingConditions conversionTargeting = TargetingConditions.forNonCombat().range(16.0D).selector((livingEntity, level) -> {
 			return !(livingEntity instanceof WanderingTrader);
 		});
 
@@ -330,10 +318,10 @@ public class Electromancer extends SpellcasterIllager {
 				return false;
 			} else if (Electromancer.this.tickCount < this.nextAttackTickCount) {
 				return false;
-			} else if (!EventHooks.canEntityGrief(Electromancer.this.level(), Electromancer.this)) {
+			} else if (!EventHooks.canEntityGrief(getServerLevel(Electromancer.this.level()), Electromancer.this)) {
 				return false;
 			} else {
-				List<AbstractVillager> list = Electromancer.this.level().getNearbyEntities(AbstractVillager.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
+				List<AbstractVillager> list = getServerLevel(Electromancer.this.level()).getNearbyEntities(AbstractVillager.class, this.conversionTargeting, Electromancer.this, Electromancer.this.getBoundingBox().inflate(16.0D, 4.0D, 16.0D));
 				if (list.isEmpty()) {
 					return false;
 				} else {

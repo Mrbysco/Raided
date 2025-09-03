@@ -4,19 +4,19 @@ import com.mrbysco.raided.Raided;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.raid.Raider;
-import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class RaidRegHelper<T extends Raider> {
 	protected final String name;
-	protected final Supplier<EntityType<? extends T>> entityType;
-	protected final DeferredItem<DeferredSpawnEggItem> spawnEgg;
+	protected final DeferredHolder<EntityType<?>, EntityType<T>> entityType;
+	protected final DeferredItem<SpawnEggItem> spawnEgg;
 
 	protected DeferredHolder<SoundEvent, SoundEvent> AMBIENT;
 	protected DeferredHolder<SoundEvent, SoundEvent> DEATH;
@@ -42,7 +42,7 @@ public class RaidRegHelper<T extends Raider> {
 	/**
 	 * @return The spawn egg item registry object of the raider.
 	 */
-	public DeferredItem<DeferredSpawnEggItem> getSpawnEgg() {
+	public DeferredItem<SpawnEggItem> getSpawnEgg() {
 		return spawnEgg;
 	}
 
@@ -81,11 +81,10 @@ public class RaidRegHelper<T extends Raider> {
 		return CASTING == null ? null : CASTING.get();
 	}
 
-	public RaidRegHelper(String name, EntityType.Builder<T> builder, int backgroundColor, int highlightColor, boolean casting) {
+	public RaidRegHelper(String name, EntityType.EntityFactory<T> entityFactory, MobCategory mobCategory, UnaryOperator<EntityType.Builder<T>> builder, boolean casting) {
 		this.name = name;
-		this.entityType = RaidedRegistry.ENTITY_TYPES.register(name, () -> builder.build(name));
-		this.spawnEgg = RaidedRegistry.ITEMS.register(name + "_spawn_egg", () -> new DeferredSpawnEggItem(this.entityType, backgroundColor, highlightColor,
-				(new Item.Properties())));
+		this.entityType = RaidedRegistry.ENTITIES.registerEntityType(name, entityFactory, mobCategory, builder);
+		this.spawnEgg = RaidedRegistry.ITEMS.registerItem(name + "_spawn_egg", (properties) -> new SpawnEggItem(this.entityType.get(), properties));
 
 		this.AMBIENT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".ambient", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".ambient")));
 		this.DEATH = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".death", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".death")));
@@ -96,7 +95,7 @@ public class RaidRegHelper<T extends Raider> {
 		}
 	}
 
-	public RaidRegHelper(String name, EntityType.Builder<T> builder, int backgroundColor, int highlightColor) {
-		this(name, builder, backgroundColor, highlightColor, false);
+	public RaidRegHelper(String name, EntityType.EntityFactory<T> entityFactory, MobCategory mobCategory, UnaryOperator<EntityType.Builder<T>> builder) {
+		this(name, entityFactory, mobCategory, builder, false);
 	}
 }

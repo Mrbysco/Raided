@@ -1,10 +1,10 @@
 package com.mrbysco.raided.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mrbysco.raided.entity.Incinerator;
+import com.mrbysco.raided.client.state.IncineratorRenderState;
 import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -13,13 +13,12 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
 
-public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T> implements ArmedModel, HeadedModel {
+public class IncineratorModel extends EntityModel<IncineratorRenderState> implements ArmedModel, HeadedModel {
 	private static final int STICK_COUNT = 4;
 
 	private final ModelPart root;
@@ -38,6 +37,7 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 	private final ModelPart[] blazeSticks;
 
 	public IncineratorModel(ModelPart modelPart) {
+		super(modelPart);
 		this.root = modelPart.getChild("root");
 		this.head = root.getChild("head");
 		this.hat = head.getChild("hat");
@@ -129,12 +129,16 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 	}
 
 	@Override
-	public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack itemstack = entityIn.getItemBySlot(EquipmentSlot.HEAD);
+	public void setupAnim(IncineratorRenderState renderState) {
+		super.setupAnim(renderState);
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
+		float ageInTicks = renderState.ageInTicks;
+		ItemStack itemstack = renderState.headStack;
 
 		// head
-		head.yRot = netHeadYaw / 57.295776F;
-		head.xRot = headPitch / 57.295776F;
+		head.yRot = renderState.xRot / 57.295776F;
+		head.xRot = renderState.yRot / 57.295776F;
 
 		// arms
 		if (itemstack.isEmpty()) {
@@ -144,8 +148,8 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 			leftArm.zRot = 0.0F;
 			rightArm.zRot = 0.0F;
 
-			if (attackTime > -9990.0F) {
-				holdingMelee();
+			if (renderState.attackAnim > -9990.0F) {
+				holdingMelee(renderState);
 			}
 
 			rightArm.zRot -= (Mth.cos(ageInTicks * 0.09F) * 0.025F + 0.025F);
@@ -159,7 +163,7 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 			tankRope2.yRot = degToRad(90);
 		}
 
-		if (entityIn.isThrowing()) {
+		if (renderState.throwing) {
 			animationThrow();
 		}
 
@@ -181,10 +185,10 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 			++f;
 		}
 
-		blazeHead.yRot = netHeadYaw * 0.017453292F;
-		blazeHead.xRot = headPitch * 0.017453292F;
+		blazeHead.yRot = renderState.xRot * 0.017453292F;
+		blazeHead.xRot = renderState.yRot * 0.017453292F;
 
-		if (entityIn.isPassenger()) {
+		if (renderState.isRiding) {
 			rightLeg.xRot += -((float) Math.PI / 5F);
 			leftLeg.xRot = -1.4137167F;
 			leftLeg.yRot = ((float) Math.PI / 10F);
@@ -195,20 +199,20 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 		}
 	}
 
-	public void holdingMelee() {
+	public void holdingMelee(IncineratorRenderState renderState) {
 		float f6;
 		float f7;
 
-		f6 = 1.0F - attackTime;
+		f6 = 1.0F - renderState.attackAnim;
 		f6 *= f6;
 		f6 *= f6;
 		f6 = 1.0F - f6;
 		f7 = Mth.sin(f6 * (float) Math.PI);
-		float f8 = Mth.sin(attackTime * (float) Math.PI) * -(head.xRot - 0.7F) * 0.75F;
+		float f8 = Mth.sin(renderState.attackAnim * (float) Math.PI) * -(head.xRot - 0.7F) * 0.75F;
 
 		leftArm.xRot = (float) ((double) leftArm.xRot - ((double) f7 * 1.2D + (double) f8));
 		leftArm.xRot += (body.yRot * 2.0F);
-		leftArm.zRot = (Mth.sin(attackTime * (float) Math.PI) * -0.4F);
+		leftArm.zRot = (Mth.sin(renderState.attackAnim * (float) Math.PI) * -0.4F);
 	}
 
 	private void animationThrow() {
@@ -222,11 +226,6 @@ public class IncineratorModel<T extends Incinerator> extends HierarchicalModel<T
 
 	protected float degToRad(float degrees) {
 		return degrees * (float) Math.PI / 180;
-	}
-
-	@Override
-	public ModelPart root() {
-		return root;
 	}
 
 	private ModelPart getArm(HumanoidArm arm) {

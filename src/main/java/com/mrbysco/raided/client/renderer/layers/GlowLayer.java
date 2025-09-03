@@ -4,13 +4,13 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EyesLayer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.AbstractIllager;
 
-public class GlowLayer<T extends AbstractIllager> extends EyesLayer<T, EntityModel<T>> {
+public class GlowLayer<S extends LivingEntityRenderState, M extends EntityModel<S>> extends EyesLayer<S, M> {
 	private final RenderType RENDER_TYPE;
 
-	public GlowLayer(RenderLayerParent<T, EntityModel<T>> layerParent, ResourceLocation eyeTexture) {
+	public GlowLayer(RenderLayerParent<S, M> layerParent, ResourceLocation eyeTexture) {
 		super(layerParent);
 		this.RENDER_TYPE = RenderType.eyes(eyeTexture);
 	}

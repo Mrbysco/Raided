@@ -42,7 +42,7 @@ public class RaidedLootProvider extends LootTableProvider {
 
 		@Override
 		protected Stream<EntityType<?>> getKnownEntityTypes() {
-			return RaidedRegistry.ENTITY_TYPES.getEntries().stream().map(Supplier::get);
+			return RaidedRegistry.ENTITIES.getEntries().stream().map(Supplier::get);
 		}
 	}
 

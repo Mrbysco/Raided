@@ -1,11 +1,13 @@
 package com.mrbysco.raided.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mrbysco.raided.client.state.InquisitorRenderState;
+import com.mrbysco.raided.entity.Electromancer;
 import com.mrbysco.raided.entity.Inquisitor;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -15,8 +17,9 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.monster.AbstractIllager;
 
-public class InquisitorModel extends HierarchicalModel<Inquisitor> implements ArmedModel, HeadedModel {
+public class InquisitorModel extends EntityModel<InquisitorRenderState> implements ArmedModel, HeadedModel {
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart hat;
@@ -26,6 +29,7 @@ public class InquisitorModel extends HierarchicalModel<Inquisitor> implements Ar
 	private final ModelPart leftArm;
 
 	public InquisitorModel(ModelPart root) {
+		super(root);
 		this.root = root;
 		this.head = root.getChild("head");
 		this.hat = this.head.getChild("hat");
@@ -77,14 +81,14 @@ public class InquisitorModel extends HierarchicalModel<Inquisitor> implements Ar
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
-	public ModelPart root() {
-		return this.root;
-	}
-
-	public void setupAnim(Inquisitor inquisitor, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-		this.head.xRot = headPitch * ((float) Math.PI / 180F);
-		if (this.riding) {
+	public void setupAnim(InquisitorRenderState renderState) {
+		super.setupAnim(renderState);
+		this.head.yRot = renderState.yRot * ((float) Math.PI / 180F);
+		this.head.xRot = renderState.xRot * ((float) Math.PI / 180F);
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
+		float ageInTicks = renderState.ageInTicks;
+		if (renderState.isRiding) {
 			this.rightArm.xRot = (-(float) Math.PI / 5F);
 			this.rightArm.yRot = 0.0F;
 			this.rightArm.zRot = 0.0F;
@@ -112,12 +116,12 @@ public class InquisitorModel extends HierarchicalModel<Inquisitor> implements Ar
 			this.leftLeg.zRot = 0.0F;
 		}
 
-		Inquisitor.IllagerArmPose abstractillager$illagerarmpose = inquisitor.getArmPose();
-		if (abstractillager$illagerarmpose == Inquisitor.IllagerArmPose.ATTACKING) {
-			if (inquisitor.getMainHandItem().isEmpty()) {
-				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, this.attackTime, ageInTicks);
+		AbstractIllager.IllagerArmPose abstractillager$illagerarmpose = renderState.armPose;
+		if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.ATTACKING) {
+			if (renderState.getMainHandItem().isEmpty()) {
+				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, renderState.attackAnim, renderState.ageInTicks);
 			} else {
-				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, inquisitor, this.attackTime, ageInTicks);
+				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, renderState.mainArm, renderState.attackAnim, renderState.ageInTicks);
 			}
 		} else if (abstractillager$illagerarmpose == Inquisitor.IllagerArmPose.SPELLCASTING) {
 			this.rightArm.z = 0.0F;
@@ -139,7 +143,7 @@ public class InquisitorModel extends HierarchicalModel<Inquisitor> implements Ar
 		} else if (abstractillager$illagerarmpose == Inquisitor.IllagerArmPose.CROSSBOW_HOLD) {
 			AnimationUtils.animateCrossbowHold(this.rightArm, this.leftArm, this.head, true);
 		} else if (abstractillager$illagerarmpose == Inquisitor.IllagerArmPose.CROSSBOW_CHARGE) {
-			AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, inquisitor, true);
+			AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, renderState.maxCrossbowChargeDuration, renderState.ticksUsingItem, true);
 		} else if (abstractillager$illagerarmpose == Inquisitor.IllagerArmPose.CELEBRATING) {
 			this.rightArm.z = 0.0F;
 			this.rightArm.x = -5.0F;

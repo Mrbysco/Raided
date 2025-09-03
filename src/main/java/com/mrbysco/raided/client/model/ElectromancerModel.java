@@ -1,11 +1,12 @@
 package com.mrbysco.raided.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mrbysco.raided.client.state.ElectromancerRenderState;
 import com.mrbysco.raided.entity.Electromancer;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -15,8 +16,9 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.monster.AbstractIllager;
 
-public class ElectromancerModel extends HierarchicalModel<Electromancer> implements ArmedModel, HeadedModel {
+public class ElectromancerModel extends EntityModel<ElectromancerRenderState> implements ArmedModel, HeadedModel {
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart hat;
@@ -26,6 +28,7 @@ public class ElectromancerModel extends HierarchicalModel<Electromancer> impleme
 	private final ModelPart leftArm;
 
 	public ElectromancerModel(ModelPart root) {
+		super(root);
 		this.root = root.getChild("illager");
 		this.head = this.root.getChild("head");
 		this.hat = this.head.getChild("head_hat");
@@ -69,14 +72,14 @@ public class ElectromancerModel extends HierarchicalModel<Electromancer> impleme
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
-	public ModelPart root() {
-		return this.root;
-	}
-
-	public void setupAnim(Electromancer electromancer, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-		this.head.xRot = headPitch * ((float) Math.PI / 180F);
-		if (this.riding) {
+	public void setupAnim(ElectromancerRenderState renderState) {
+		super.setupAnim(renderState);
+		this.head.yRot = renderState.yRot * ((float) Math.PI / 180F);
+		this.head.xRot = renderState.xRot * ((float) Math.PI / 180F);
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
+		float ageInTicks = renderState.ageInTicks;
+		if (renderState.isRiding) {
 			this.rightArm.xRot = (-(float) Math.PI / 5F);
 			this.rightArm.yRot = 0.0F;
 			this.rightArm.zRot = 0.0F;
@@ -104,12 +107,12 @@ public class ElectromancerModel extends HierarchicalModel<Electromancer> impleme
 			this.leftLeg.zRot = 0.0F;
 		}
 
-		Electromancer.IllagerArmPose abstractillager$illagerarmpose = electromancer.getArmPose();
+		AbstractIllager.IllagerArmPose abstractillager$illagerarmpose = renderState.armPose;
 		if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.ATTACKING) {
-			if (electromancer.getMainHandItem().isEmpty()) {
-				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, this.attackTime, ageInTicks);
+			if (renderState.getMainHandItem().isEmpty()) {
+				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, renderState.attackAnim, renderState.ageInTicks);
 			} else {
-				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, electromancer, this.attackTime, ageInTicks);
+				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, renderState.mainArm, renderState.attackAnim, renderState.ageInTicks);
 			}
 		} else if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.SPELLCASTING) {
 			this.rightArm.z = 0.0F;
@@ -131,7 +134,7 @@ public class ElectromancerModel extends HierarchicalModel<Electromancer> impleme
 		} else if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.CROSSBOW_HOLD) {
 			AnimationUtils.animateCrossbowHold(this.rightArm, this.leftArm, this.head, true);
 		} else if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.CROSSBOW_CHARGE) {
-			AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, electromancer, true);
+			AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, renderState.maxCrossbowChargeDuration, renderState.ticksUsingItem, true);
 		} else if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.CELEBRATING) {
 			this.rightArm.z = 0.0F;
 			this.rightArm.x = -5.0F;

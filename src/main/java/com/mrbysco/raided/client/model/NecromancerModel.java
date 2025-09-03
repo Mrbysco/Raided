@@ -1,11 +1,12 @@
 package com.mrbysco.raided.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mrbysco.raided.entity.Necromancer;
+import com.mrbysco.raided.client.state.NecromancerRenderState;
+import com.mrbysco.raided.entity.Electromancer;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -17,7 +18,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.monster.AbstractIllager;
 
-public class NecromancerModel extends HierarchicalModel<Necromancer> implements ArmedModel, HeadedModel {
+public class NecromancerModel extends EntityModel<NecromancerRenderState> implements ArmedModel, HeadedModel {
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart hat;
@@ -27,6 +28,7 @@ public class NecromancerModel extends HierarchicalModel<Necromancer> implements 
 	private final ModelPart leftArm;
 
 	public NecromancerModel(ModelPart root) {
+		super(root);
 		this.root = root.getChild("illager");
 		this.head = this.root.getChild("head");
 		this.hat = this.head.getChild("head_hat");
@@ -70,14 +72,14 @@ public class NecromancerModel extends HierarchicalModel<Necromancer> implements 
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
-	public ModelPart root() {
-		return this.root;
-	}
-
-	public void setupAnim(Necromancer necromancer, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-		this.head.xRot = headPitch * ((float) Math.PI / 180F);
-		if (this.riding) {
+	public void setupAnim(NecromancerRenderState renderState) {
+		super.setupAnim(renderState);
+		this.head.yRot = renderState.yRot * ((float) Math.PI / 180F);
+		this.head.xRot = renderState.xRot * ((float) Math.PI / 180F);
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
+		float ageInTicks = renderState.ageInTicks;
+		if (renderState.isRiding) {
 			this.rightArm.xRot = (-(float) Math.PI / 5F);
 			this.rightArm.yRot = 0.0F;
 			this.rightArm.zRot = 0.0F;
@@ -105,12 +107,12 @@ public class NecromancerModel extends HierarchicalModel<Necromancer> implements 
 			this.leftLeg.zRot = 0.0F;
 		}
 
-		AbstractIllager.IllagerArmPose abstractillager$illagerarmpose = necromancer.getArmPose();
-		if (abstractillager$illagerarmpose == AbstractIllager.IllagerArmPose.ATTACKING) {
-			if (necromancer.getMainHandItem().isEmpty()) {
-				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, this.attackTime, ageInTicks);
+		AbstractIllager.IllagerArmPose abstractillager$illagerarmpose = renderState.armPose;
+		if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.ATTACKING) {
+			if (renderState.getMainHandItem().isEmpty()) {
+				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, renderState.attackAnim, renderState.ageInTicks);
 			} else {
-				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, necromancer, this.attackTime, ageInTicks);
+				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, renderState.mainArm, renderState.attackAnim, renderState.ageInTicks);
 			}
 		} else if (abstractillager$illagerarmpose == AbstractIllager.IllagerArmPose.SPELLCASTING) {
 			this.rightArm.z = 0.0F;
@@ -132,7 +134,7 @@ public class NecromancerModel extends HierarchicalModel<Necromancer> implements 
 		} else if (abstractillager$illagerarmpose == AbstractIllager.IllagerArmPose.CROSSBOW_HOLD) {
 			AnimationUtils.animateCrossbowHold(this.rightArm, this.leftArm, this.head, true);
 		} else if (abstractillager$illagerarmpose == AbstractIllager.IllagerArmPose.CROSSBOW_CHARGE) {
-			AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, necromancer, true);
+			AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, renderState.maxCrossbowChargeDuration, renderState.ticksUsingItem, true);
 		} else if (abstractillager$illagerarmpose == AbstractIllager.IllagerArmPose.CELEBRATING) {
 			this.rightArm.z = 0.0F;
 			this.rightArm.x = -5.0F;

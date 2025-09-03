@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public class IncineratorFireball extends SmallFireball {
 	public IncineratorFireball(EntityType<? extends IncineratorFireball> entityType, Level level) {
@@ -36,15 +37,15 @@ public class IncineratorFireball extends SmallFireball {
 	}
 
 	@Override
-	protected void onHitEntity(EntityHitResult entityHitResult) {
+	protected void onHitEntity(EntityHitResult hitResult) {
 		if (this.level() instanceof ServerLevel serverlevel) {
-			Entity entity = entityHitResult.getEntity();
+			Entity entity = hitResult.getEntity();
 			if (!(entity instanceof Raider) && !entity.fireImmune()) {
 				Entity owner = this.getOwner();
 				int i = entity.getRemainingFireTicks();
 				entity.igniteForTicks(4);
 				DamageSource fireball = this.damageSources().fireball(this, owner);
-				boolean flag = entity.hurt(fireball, 5.0F);
+				boolean flag = entity.hurtServer(serverlevel, fireball, 5.0F);
 				if (!flag) {
 					entity.igniteForTicks(i);
 				} else if (owner instanceof LivingEntity) {
@@ -59,12 +60,12 @@ public class IncineratorFireball extends SmallFireball {
 	}
 
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean canBeCollidedWith(@Nullable Entity entity) {
 		return false;
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
 		return false;
 	}
 }

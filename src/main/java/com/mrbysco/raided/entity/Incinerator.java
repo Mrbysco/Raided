@@ -2,7 +2,6 @@ package com.mrbysco.raided.entity;
 
 import com.mrbysco.raided.entity.projectiles.IncineratorFireball;
 import com.mrbysco.raided.registry.RaidedRegistry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,11 +13,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -42,9 +41,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	private static final EntityDataAccessor<Boolean> THROWING_DATA = SynchedEntityData.defineId(Incinerator.class, EntityDataSerializers.BOOLEAN);
@@ -99,17 +101,17 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putInt("WeaponType", getWeaponType());
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putInt("WeaponType", getWeaponType());
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		if (tag.contains("WeaponType")) {
-			int typeID = tag.getInt("WeaponType");
-			setWeaponType(typeID);
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+		Optional<Integer> typeID = input.getInt("WeaponType");
+		if (typeID.isPresent()) {
+			setWeaponType(typeID.get());
 		}
 	}
 
@@ -150,31 +152,20 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	}
 
 	@Override
-	public boolean doHurtTarget(Entity entity) {
-		if (super.doHurtTarget(entity)) {
+	public boolean doHurtTarget(ServerLevel level, Entity entity) {
+		if (super.doHurtTarget(level, entity)) {
 			entity.igniteForTicks(4);
 		}
 		return true;
 	}
 
 	@Override
-	public boolean isAlliedTo(Entity entity) {
-		if (super.isAlliedTo(entity)) {
-			return true;
-		} else if (entity instanceof LivingEntity && ((LivingEntity) entity).getType().is(EntityTypeTags.ILLAGER)) {
-			return this.getTeam() == null && entity.getTeam() == null;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
 		if (hasShield()) {
 			Entity entity = source.getDirectEntity();
-			return !(entity instanceof Projectile) ? super.hurt(source, amount) : false;
+			return !(entity instanceof Projectile) ? super.hurtServer(level, source, amount) : false;
 		}
-		return super.hurt(source, amount);
+		return super.hurtServer(level, source, amount);
 	}
 
 	private boolean hasShield() {
@@ -192,7 +183,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 	}
 
 	@Override
-	public void applyRaidBuffs(ServerLevel p_348605_, int p_37844_, boolean p_37845_) {
+	public void applyRaidBuffs(ServerLevel serverLevel, int wave, boolean unused) {
 		if (random.nextFloat() < 0.25F) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD));
 		}
@@ -225,7 +216,7 @@ public class Incinerator extends AbstractIllager implements RangedAttackMob {
 
 	@Override
 	@Nullable
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, EntitySpawnReason spawnType,
 	                                    @Nullable SpawnGroupData groupData) {
 		groupData = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData);
 

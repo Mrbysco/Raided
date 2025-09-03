@@ -1,21 +1,22 @@
 package com.mrbysco.raided.client.model.projectile;
 
-import net.minecraft.client.model.HierarchicalModel;
+import com.mrbysco.raided.client.state.LightningProjectileRenderState;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.Entity;
 
-public class LightningProjectileModel<T extends Entity> extends HierarchicalModel<T> {
+public class LightningProjectileModel extends EntityModel<LightningProjectileRenderState> {
 	private final ModelPart root;
 	private final ModelPart main;
 
-	public LightningProjectileModel(ModelPart p_170916_) {
-		this.root = p_170916_;
-		this.main = p_170916_.getChild("main");
+	public LightningProjectileModel(ModelPart root) {
+		super(root);
+		this.root = root;
+		this.main = root.getChild("main");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -29,12 +30,9 @@ public class LightningProjectileModel<T extends Entity> extends HierarchicalMode
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
-	public ModelPart root() {
-		return this.root;
-	}
-
-	public void setupAnim(T p_103716_, float p_103717_, float p_103718_, float p_103719_, float p_103720_, float p_103721_) {
-		this.main.yRot = p_103720_ * ((float) Math.PI / 180F);
-		this.main.xRot = p_103721_ * ((float) Math.PI / 180F);
+	@Override
+	public void setupAnim(LightningProjectileRenderState renderState) {
+		this.main.yRot = renderState.yRot * ((float) Math.PI / 180F);
+		this.main.xRot = renderState.xRot * ((float) Math.PI / 180F);
 	}
 }

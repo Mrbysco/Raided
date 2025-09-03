@@ -34,7 +34,7 @@ public class Raided {
 		eventBus.addListener(this::addTabContents);
 
 		RaidedRegistry.ITEMS.register(eventBus);
-		RaidedRegistry.ENTITY_TYPES.register(eventBus);
+		RaidedRegistry.ENTITIES.register(eventBus);
 		RaidedRegistry.SOUND_EVENTS.register(eventBus);
 
 		NeoForge.EVENT_BUS.register(new EventHandler());

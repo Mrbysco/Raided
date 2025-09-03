@@ -1,16 +1,16 @@
 package com.mrbysco.raided.entity.projectiles;
 
 import com.mrbysco.raided.registry.RaidedRegistry;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Creeper;
@@ -21,12 +21,15 @@ import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.UUID;
 
 public class LightningProjectile extends AbstractHurtingProjectile {
@@ -39,7 +42,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 
 	public LightningProjectile(Level level, LivingEntity shooter, Vec3 movement) {
 		super(RaidedRegistry.LIGHTNING_PROJECTILE.get(), shooter, movement, level);
-		this.moveTo(shooter.getX(), shooter.getY() + 2, shooter.getZ(), this.getYRot(), this.getXRot());
+		this.snapTo(shooter.getX(), shooter.getY() + 2, shooter.getZ(), this.getYRot(), this.getXRot());
 	}
 
 	public LightningProjectile(Level level, double x, double y, double z, Vec3 movement) {
@@ -55,18 +58,19 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 		this.targetId = targetId;
 	}
 
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
+	@Override
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
 		if (this.targetId != null) {
-			tag.putUUID("Target", this.targetId);
+			output.store("Target", UUIDUtil.CODEC, this.targetId);
 		}
 	}
 
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		if (tag.hasUUID("Target")) {
-			this.targetId = tag.getUUID("Target");
-		}
+	@Override
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+		Optional<UUID> optionalTarget = input.read("Target", UUIDUtil.CODEC);
+		this.targetId = optionalTarget.orElse(null);
 	}
 
 	@Override
@@ -106,9 +110,10 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 					ServerLevel level = (ServerLevel) this.level();
 					if (this.level().getDifficulty() != Difficulty.PEACEFUL && EventHooks.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
 					})) {
-						Witch witch = EntityType.WITCH.create(level);
-						witch.moveTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());
-						EventHooks.finalizeMobSpawn(witch, level, level.getCurrentDifficultyAt(witch.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null);
+						Witch witch = EntityType.WITCH.create(level, EntitySpawnReason.CONVERSION);
+						if (witch == null) return;
+						witch.snapTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());
+						EventHooks.finalizeMobSpawn(witch, level, level.getCurrentDifficultyAt(witch.blockPosition()), EntitySpawnReason.CONVERSION, (SpawnGroupData) null);
 						witch.setNoAi(abstractVillager.isNoAi());
 						if (abstractVillager.hasCustomName()) {
 							witch.setCustomName(abstractVillager.getCustomName());

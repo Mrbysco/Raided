@@ -1,8 +1,8 @@
 package com.mrbysco.raided.client.model;
 
-import com.mrbysco.raided.entity.Savager;
+import com.mrbysco.raided.client.state.SavagerRenderState;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
-public class SavagerModel<T extends Savager> extends HierarchicalModel<T> implements HeadedModel {
+public class SavagerModel extends EntityModel<SavagerRenderState> implements HeadedModel {
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart upperBody;
@@ -23,6 +23,7 @@ public class SavagerModel<T extends Savager> extends HierarchicalModel<T> implem
 	private final ModelPart tail;
 
 	public SavagerModel(ModelPart root) {
+		super(root);
 		this.root = root;
 		this.head = root.getChild("head");
 		this.upperBody = root.getChild("upperBody");
@@ -98,24 +99,16 @@ public class SavagerModel<T extends Savager> extends HierarchicalModel<T> implem
 	}
 
 	@Override
-	public ModelPart root() {
-		return this.root;
-	}
-
-	public void prepareMobModel(T savager, float limbSwing, float limbSwingAmount, float partialTick) {
-		this.tail.yRot = 0.0F;
-//		this.body.xRot = ((float) Math.PI / 2F);
-//		this.upperBody.xRot = this.body.xRot;
+	public void setupAnim(SavagerRenderState renderState) {
+		super.setupAnim(renderState);
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
 		this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount;
 		this.leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount;
 		this.rightFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount;
 		this.leftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount;
-	}
-
-	@Override
-	public void setupAnim(T savager, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.head.xRot = headPitch * ((float) Math.PI / 180F);
-		this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-		this.tail.xRot = ageInTicks;
+		this.head.xRot = renderState.xRot * ((float) Math.PI / 180F);
+		this.head.yRot = renderState.yRot * ((float) Math.PI / 180F);
+		this.tail.xRot = renderState.ageInTicks;
 	}
 }
