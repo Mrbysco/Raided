@@ -70,22 +70,19 @@ public class RaidedConfig {
 	public static void onFileChange(final ModConfigEvent.Reloading configEvent) {
 		Raided.LOGGER.debug("Raided's config just got changed on the file system!");
 		if (configEvent.getConfig().getModId().equals(Raided.MOD_ID)) {
-			if (validateValue(COMMON.inquisitorSpawnsPerWave, inquisitorSpawns) ||
-					validateValue(COMMON.incineratorSpawnsPerWave, incineratorSpawns) ||
-					validateValue(COMMON.savagerSpawnsPerWave, savagerSpawns) ||
-					validateValue(COMMON.necromancerSpawnsPerWave, necromancerSpawns) ||
-					validateValue(COMMON.electromancerSpawnsPerWave, electromancerSpawns)) {
-			}
+			validateValue(COMMON.inquisitorSpawnsPerWave, inquisitorSpawns);
+			validateValue(COMMON.incineratorSpawnsPerWave, incineratorSpawns);
+			validateValue(COMMON.savagerSpawnsPerWave, savagerSpawns);
+			validateValue(COMMON.necromancerSpawnsPerWave, necromancerSpawns);
+			validateValue(COMMON.electromancerSpawnsPerWave, electromancerSpawns);
 		}
 	}
 
-	public static boolean validateValue(ConfigValue<List<? extends Integer>> configValue, Integer[] defaults) {
+	public static void validateValue(ConfigValue<List<? extends Integer>> configValue, Integer[] defaults) {
 		if (configValue.get().size() != defaults.length) {
 			Raided.LOGGER.error("'{}' is not the correct length, resetting to default. There must always be {} values in the list while it had {}",
-					configValue.getPath().get(0), defaults.length, configValue.get().size());
+					configValue.getPath().getFirst(), defaults.length, configValue.get().size());
 			configValue.set(List.of(incineratorSpawns));
-			return true;
 		}
-		return false;
 	}
 }
