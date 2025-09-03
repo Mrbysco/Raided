@@ -29,23 +29,23 @@ public class RaidedConfig {
 
 			inquisitorSpawnsPerWave = builder
 					.comment("The spawns per wave for the Inquisitor before bonus spawns are applied (Must always have 8 values!)")
-					.defineList(List.of("inquisitorSpawnsPerWave"), () -> List.of(inquisitorSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+					.defineList("inquisitorSpawnsPerWave", () -> List.of(inquisitorSpawns), () -> 0, o -> (o instanceof Integer amount) && amount >= 0);
 
 			incineratorSpawnsPerWave = builder
 					.comment("The spawns per wave for the Incinerator before bonus spawns are applied (Must always have 8 values!)")
-					.defineList(List.of("incineratorSpawnsPerWave"), () -> List.of(incineratorSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+					.defineList("incineratorSpawnsPerWave", () -> List.of(incineratorSpawns), () -> 0, o -> (o instanceof Integer amount) && amount >= 0);
 
 			savagerSpawnsPerWave = builder
 					.comment("The spawns per wave for the Savager before bonus spawns are applied (Must always have 8 values!)")
-					.defineList(List.of("savagerSpawnsPerWave"), () -> List.of(savagerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+					.defineList("savagerSpawnsPerWave", () -> List.of(savagerSpawns), () -> 0, o -> (o instanceof Integer amount) && amount >= 0);
 
 			necromancerSpawnsPerWave = builder
 					.comment("The spawns per wave for the Necromancer before bonus spawns are applied (Must always have 8 values!)")
-					.defineList(List.of("necromancerSpawnsPerWave"), () -> List.of(necromancerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+					.defineList("necromancerSpawnsPerWave", () -> List.of(necromancerSpawns), () -> 0, o -> (o instanceof Integer amount) && amount >= 0);
 
 			electromancerSpawnsPerWave = builder
 					.comment("The spawns per wave for the Electromancer before bonus spawns are applied (Must always have 8 values!)")
-					.defineList(List.of("electromancerSpawnsPerWave"), () -> List.of(electromancerSpawns), o -> (o instanceof Integer amount) && amount >= 0);
+					.defineList("electromancerSpawnsPerWave", () -> List.of(electromancerSpawns), () -> 0, o -> (o instanceof Integer amount) && amount >= 0);
 
 			builder.pop();
 		}
