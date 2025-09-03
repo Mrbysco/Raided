@@ -1,1 +1,1 @@
-* Fix config loading
+* Enable in-game config
