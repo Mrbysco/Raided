@@ -109,6 +109,6 @@ public class SavagerModel extends EntityModel<SavagerRenderState> implements Hea
 		this.leftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount;
 		this.head.xRot = renderState.xRot * ((float) Math.PI / 180F);
 		this.head.yRot = renderState.yRot * ((float) Math.PI / 180F);
-		this.tail.xRot = renderState.ageInTicks;
+		this.tail.xRot = renderState.tailAngle;
 	}
 }

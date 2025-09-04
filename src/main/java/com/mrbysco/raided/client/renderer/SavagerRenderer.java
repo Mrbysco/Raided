@@ -24,6 +24,7 @@ public class SavagerRenderer extends MobRenderer<Savager, SavagerRenderState, Sa
 	@Override
 	public void extractRenderState(Savager savager, SavagerRenderState renderState, float partialTicks) {
 		super.extractRenderState(savager, renderState, partialTicks);
+		renderState.tailAngle = savager.getTarget() != null ? 1.5393804F : (float) (Math.PI / 5);
 	}
 
 	@Override
