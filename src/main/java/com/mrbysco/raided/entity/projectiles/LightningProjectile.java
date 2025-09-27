@@ -125,7 +125,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 						net.minecraftforge.event.ForgeEventFactory.onLivingConvert(abstractVillager, witch);
 						level.addFreshEntityWithPassengers(witch);
 						if (abstractVillager instanceof Villager villager) {
-							villager.releaseAllPois();
+							villager.die(DamageSource.MAGIC);
 						}
 						abstractVillager.discard();
 					}
