@@ -1,1 +1,1 @@
-* Enable in-game config
+* Add mobs to `minecraft:raiders` tag
