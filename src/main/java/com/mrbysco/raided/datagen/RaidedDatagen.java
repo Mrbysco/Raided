@@ -3,13 +3,17 @@ package com.mrbysco.raided.datagen;
 import com.mrbysco.raided.datagen.client.RaidedItemModelsProvider;
 import com.mrbysco.raided.datagen.client.RaidedLanguageProvider;
 import com.mrbysco.raided.datagen.client.RaidedSoundProvider;
+import com.mrbysco.raided.datagen.server.RaidedEntityTypeTagsProvider;
 import com.mrbysco.raided.datagen.server.RaidedLootProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+
+import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class RaidedDatagen {
@@ -19,9 +23,11 @@ public class RaidedDatagen {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper helper = event.getExistingFileHelper();
 		PackOutput packOutput = generator.getPackOutput();
+		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
 		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new RaidedLootProvider(packOutput, event.getLookupProvider()));
+			generator.addProvider(event.includeServer(), new RaidedLootProvider(packOutput, lookupProvider));
+			generator.addProvider(event.includeServer(), new RaidedEntityTypeTagsProvider(packOutput, lookupProvider, helper));
 		}
 		if (event.includeClient()) {
 			generator.addProvider(event.includeClient(), new RaidedLanguageProvider(packOutput));
