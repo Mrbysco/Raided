@@ -3,12 +3,15 @@ package com.mrbysco.raided.datagen;
 import com.mrbysco.raided.Raided;
 import com.mrbysco.raided.registry.RaidRegHelper;
 import com.mrbysco.raided.registry.RaidedRegistry;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -24,10 +27,12 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -38,14 +43,34 @@ public class RaidedDatagen {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper helper = event.getExistingFileHelper();
 		PackOutput packOutput = generator.getPackOutput();
+		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
 		if (event.includeServer()) {
 			generator.addProvider(event.includeServer(), new Loots(packOutput));
+			generator.addProvider(event.includeServer(), new EntityTags(packOutput, lookupProvider, helper));
 		}
 		if (event.includeClient()) {
 			generator.addProvider(event.includeClient(), new Language(packOutput));
 			generator.addProvider(event.includeClient(), new ItemModels(packOutput, helper));
 			generator.addProvider(event.includeClient(), new SoundProvider(packOutput, helper));
+		}
+	}
+
+	private static class EntityTags extends EntityTypeTagsProvider {
+
+		public EntityTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
+			super(packOutput, provider, Raided.MOD_ID, existingFileHelper);
+		}
+
+		@Override
+		protected void addTags(HolderLookup.Provider provider) {
+			this.tag(EntityTypeTags.RAIDERS).add(
+					RaidedRegistry.INQUISITOR.getEntityType(),
+					RaidedRegistry.INCINERATOR.getEntityType(),
+					RaidedRegistry.SAVAGER.getEntityType(),
+					RaidedRegistry.NECROMANCER.getEntityType(),
+					RaidedRegistry.ELECTROMANCER.getEntityType()
+			);
 		}
 	}
 
