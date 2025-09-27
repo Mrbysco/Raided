@@ -144,8 +144,8 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
 
-        mainFile.addRequired("")
-        mainFile.addOptional("")
+//        mainFile.addRequirement("")
+//        mainFile.addOptional("")
     }
 }
 
