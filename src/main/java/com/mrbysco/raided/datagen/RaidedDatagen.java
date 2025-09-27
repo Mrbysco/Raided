@@ -8,8 +8,10 @@ import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
@@ -27,6 +29,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -45,11 +48,30 @@ public class RaidedDatagen {
 
 		if (event.includeServer()) {
 			generator.addProvider(new Loots(generator));
+			generator.addProvider(new EntityTags(generator, helper));
 		}
 		if (event.includeClient()) {
 			generator.addProvider(new Language(generator));
 			generator.addProvider(new ItemModels(generator, helper));
 			generator.addProvider(new SoundProvider(generator, helper));
+		}
+	}
+
+	private static class EntityTags extends EntityTypeTagsProvider {
+
+		public EntityTags(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
+			super(generator, Raided.MOD_ID, existingFileHelper);
+		}
+
+		@Override
+		protected void addTags() {
+			this.tag(EntityTypeTags.RAIDERS).add(
+					RaidedRegistry.INQUISITOR.getEntityType(),
+					RaidedRegistry.INCINERATOR.getEntityType(),
+					RaidedRegistry.SAVAGER.getEntityType(),
+					RaidedRegistry.NECROMANCER.getEntityType(),
+					RaidedRegistry.ELECTROMANCER.getEntityType()
+			);
 		}
 	}
 
