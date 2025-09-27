@@ -1,1 +1,1 @@
-* Fix a mistake in the Necromancer class
+* Add mobs to `minecraft:raiders` tag
