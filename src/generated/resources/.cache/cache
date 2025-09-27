@@ -5,6 +5,7 @@
 98167609bf3898587f7565736a6fc24a7966cacd assets/raided/models/item/necromancer_spawn_egg.json
 98167609bf3898587f7565736a6fc24a7966cacd assets/raided/models/item/savager_spawn_egg.json
 2a9fabc89882cf29e65cecf260c957b5fd520447 assets/raided/sounds.json
+0d667d56c3aa75e865cc748681e2a5c858c2bae7 data/minecraft/tags/entity_types/raiders.json
 f0266b86d509baafb030ddb9915394ea06d372cd data/raided/loot_tables/entities/electromancer.json
 f0266b86d509baafb030ddb9915394ea06d372cd data/raided/loot_tables/entities/incinerator.json
 f0266b86d509baafb030ddb9915394ea06d372cd data/raided/loot_tables/entities/inquisitor.json
