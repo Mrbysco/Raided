@@ -1,1 +1,1 @@
-* Add mobs to `minecraft:raiders` tag
+* Fix startup crash
