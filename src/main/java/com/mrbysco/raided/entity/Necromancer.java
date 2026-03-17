@@ -17,7 +17,7 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.illager.AbstractIllager;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
@@ -75,7 +75,7 @@ public class Necromancer extends AbstractIllager {
 	}
 
 	public boolean isHealing() {
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			return this.entityData.get(HEALING);
 		} else {
 			return this.healingTickCount > 0;

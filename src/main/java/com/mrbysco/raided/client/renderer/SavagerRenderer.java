@@ -7,10 +7,10 @@ import com.mrbysco.raided.client.state.SavagerRenderState;
 import com.mrbysco.raided.entity.Savager;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class SavagerRenderer extends MobRenderer<Savager, SavagerRenderState, SavagerModel> {
-	private static final ResourceLocation SAVAGER_LOCATION = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/savager.png");
+	private static final Identifier SAVAGER_LOCATION = Raided.modLoc("textures/entity/illager/savager.png");
 
 	public SavagerRenderer(EntityRendererProvider.Context context) {
 		super(context, new SavagerModel(context.bakeLayer(ClientHandler.SAVAGER)), 0.5F);
@@ -28,7 +28,7 @@ public class SavagerRenderer extends MobRenderer<Savager, SavagerRenderState, Sa
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(SavagerRenderState renderState) {
+	public Identifier getTextureLocation(SavagerRenderState renderState) {
 		return SAVAGER_LOCATION;
 	}
 }

@@ -16,7 +16,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onDeath(LivingDeathEvent event) {
 		final Level level = event.getEntity().level();
-		if (!level.isClientSide && event.getEntity() instanceof Raider raider && raider.getType() != RaidedRegistry.NECROMANCER.getEntityType()) {
+		if (!level.isClientSide() && event.getEntity() instanceof Raider raider && raider.getType() != RaidedRegistry.NECROMANCER.getEntityType()) {
 			if (level instanceof ServerLevel serverLevel) {
 				List<Necromancer> necromancers = serverLevel.getNearbyEntities(Necromancer.class, TargetingConditions.forNonCombat(), raider,
 						raider.getBoundingBox().inflate(10.0D, 8.0D, 10.0D));

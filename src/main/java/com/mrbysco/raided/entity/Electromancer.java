@@ -18,12 +18,12 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.SpellcasterIllager;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.entity.monster.illager.SpellcasterIllager;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
@@ -342,7 +342,7 @@ public class Electromancer extends SpellcasterIllager {
 
 		protected void performSpellCasting() {
 			AbstractVillager abstractVillager = Electromancer.this.getWitchificationTarget();
-			if (!Electromancer.this.level().isClientSide && abstractVillager != null && abstractVillager.isAlive()) {
+			if (!Electromancer.this.level().isClientSide() && abstractVillager != null && abstractVillager.isAlive()) {
 				createBoltEntity(abstractVillager);
 			}
 		}

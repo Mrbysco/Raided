@@ -9,12 +9,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.monster.illager.AbstractIllager;
 import net.minecraft.world.item.CrossbowItem;
 
 public class ElectromancerRenderer extends MobRenderer<Electromancer, ElectromancerRenderState, ElectromancerModel> {
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/electromancer.png");
+	private static final Identifier TEXTURE = Raided.modLoc("textures/entity/illager/electromancer.png");
 
 	public ElectromancerRenderer(EntityRendererProvider.Context context) {
 		super(context, new ElectromancerModel(context.bakeLayer(ClientHandler.ELECTROMANCER)), 0.4F);
@@ -29,7 +29,7 @@ public class ElectromancerRenderer extends MobRenderer<Electromancer, Electroman
 	@Override
 	public void extractRenderState(Electromancer electromancer, ElectromancerRenderState renderState, float partialTick) {
 		super.extractRenderState(electromancer, renderState, partialTick);
-		ArmedEntityRenderState.extractArmedEntityRenderState(electromancer, renderState, this.itemModelResolver);
+		ArmedEntityRenderState.extractArmedEntityRenderState(electromancer, renderState, this.itemModelResolver, partialTick);
 		renderState.isRiding = electromancer.isPassenger();
 		renderState.mainArm = electromancer.getMainArm();
 		renderState.armPose = electromancer.getArmPose();
@@ -42,7 +42,7 @@ public class ElectromancerRenderer extends MobRenderer<Electromancer, Electroman
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(ElectromancerRenderState renderState) {
+	public Identifier getTextureLocation(ElectromancerRenderState renderState) {
 		return TEXTURE;
 	}
 }

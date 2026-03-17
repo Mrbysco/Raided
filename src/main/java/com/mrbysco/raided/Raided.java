@@ -5,6 +5,7 @@ import com.mrbysco.raided.config.RaidedConfig;
 import com.mrbysco.raided.handler.EventHandler;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import com.mrbysco.raided.registry.RaidedSetup;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
@@ -54,5 +55,9 @@ public class Raided {
 					reg.get() instanceof SpawnEggItem).map(reg -> new ItemStack(reg.get())).toList();
 			event.acceptAll(stacks);
 		}
+	}
+
+	public static Identifier modLoc(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

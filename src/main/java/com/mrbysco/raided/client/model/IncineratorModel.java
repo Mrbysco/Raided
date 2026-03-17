@@ -12,6 +12,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
@@ -236,7 +237,8 @@ public class IncineratorModel extends EntityModel<IncineratorRenderState> implem
 		return this.head;
 	}
 
-	public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+	@Override
+	public void translateToHand(EntityRenderState renderState, HumanoidArm arm, PoseStack poseStack) {
 		this.getArm(arm).translateAndRotate(poseStack);
 	}
 }

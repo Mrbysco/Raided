@@ -12,13 +12,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Witch;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.WanderingTrader;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
+import net.minecraft.world.entity.projectile.hurtingprojectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
@@ -76,7 +76,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 	@Override
 	protected void onHit(HitResult result) {
 		super.onHit(result);
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			this.discard();
 		}
 	}
@@ -92,7 +92,7 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 	}
 
 	private void convertEntity(Entity entity) {
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			if (entity instanceof Creeper creeper) {
 				if (creeper.isAlive() && !creeper.isPowered()) {
 					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level());

@@ -9,12 +9,12 @@ import com.mrbysco.raided.entity.Incinerator;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 
 public class IncineratorRenderer extends MobRenderer<Incinerator, IncineratorRenderState, IncineratorModel> {
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/incinerator.png");
-	private static final ResourceLocation EYES_TEXTURE = ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "textures/entity/illager/layer/eyes_incinerator.png");
+	private static final Identifier TEXTURE = Raided.modLoc("textures/entity/illager/incinerator.png");
+	private static final Identifier EYES_TEXTURE = Raided.modLoc("textures/entity/illager/layer/eyes_incinerator.png");
 
 	public IncineratorRenderer(EntityRendererProvider.Context context) {
 		super(context, new IncineratorModel(context.bakeLayer(ClientHandler.INCINERATOR)), 0.7F);
@@ -35,7 +35,7 @@ public class IncineratorRenderer extends MobRenderer<Incinerator, IncineratorRen
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(IncineratorRenderState renderState) {
+	public Identifier getTextureLocation(IncineratorRenderState renderState) {
 		return TEXTURE;
 	}
 }

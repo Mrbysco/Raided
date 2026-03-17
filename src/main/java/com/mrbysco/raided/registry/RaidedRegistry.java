@@ -9,7 +9,7 @@ import com.mrbysco.raided.entity.Savager;
 import com.mrbysco.raided.entity.projectiles.IncineratorFireball;
 import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -52,6 +52,6 @@ public class RaidedRegistry {
 					.sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10).noLootTable());
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> ELECROMANCER_PREPARE_CONVERSION = SOUND_EVENTS.register("entity.electromancer.prepare_conversion", () ->
-			SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity.electromancer.prepare_conversion")));
+			SoundEvent.createVariableRangeEvent(Raided.modLoc("entity.electromancer.prepare_conversion")));
 
 }

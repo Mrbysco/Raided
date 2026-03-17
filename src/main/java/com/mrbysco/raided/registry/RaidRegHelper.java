@@ -1,11 +1,11 @@
 package com.mrbysco.raided.registry;
 
 import com.mrbysco.raided.Raided;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -84,14 +84,14 @@ public class RaidRegHelper<T extends Raider> {
 	public RaidRegHelper(String name, EntityType.EntityFactory<T> entityFactory, MobCategory mobCategory, UnaryOperator<EntityType.Builder<T>> builder, boolean casting) {
 		this.name = name;
 		this.entityType = RaidedRegistry.ENTITIES.registerEntityType(name, entityFactory, mobCategory, builder);
-		this.spawnEgg = RaidedRegistry.ITEMS.registerItem(name + "_spawn_egg", (properties) -> new SpawnEggItem(this.entityType.get(), properties));
+		this.spawnEgg = RaidedRegistry.ITEMS.registerItem(name + "_spawn_egg", SpawnEggItem::new, () -> new Item.Properties().spawnEgg(this.entityType.get()));
 
-		this.AMBIENT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".ambient", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".ambient")));
-		this.DEATH = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".death", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".death")));
-		this.HURT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".hurt", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".hurt")));
-		this.CELEBRATE = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".celebrate", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".celebrate")));
+		this.AMBIENT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".ambient", () -> SoundEvent.createVariableRangeEvent(Raided.modLoc("entity." + name + ".ambient")));
+		this.DEATH = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".death", () -> SoundEvent.createVariableRangeEvent(Raided.modLoc("entity." + name + ".death")));
+		this.HURT = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".hurt", () -> SoundEvent.createVariableRangeEvent(Raided.modLoc("entity." + name + ".hurt")));
+		this.CELEBRATE = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".celebrate", () -> SoundEvent.createVariableRangeEvent(Raided.modLoc("entity." + name + ".celebrate")));
 		if (casting) {
-			this.CASTING = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".casting", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "entity." + name + ".casting")));
+			this.CASTING = RaidedRegistry.SOUND_EVENTS.register("entity." + name + ".casting", () -> SoundEvent.createVariableRangeEvent(Raided.modLoc("entity." + name + ".casting")));
 		}
 	}
 

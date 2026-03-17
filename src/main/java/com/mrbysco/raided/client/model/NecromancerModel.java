@@ -14,9 +14,10 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.illager.AbstractIllager;
 
 public class NecromancerModel extends EntityModel<NecromancerRenderState> implements ArmedModel, HeadedModel {
 	private final ModelPart root;
@@ -109,8 +110,8 @@ public class NecromancerModel extends EntityModel<NecromancerRenderState> implem
 
 		AbstractIllager.IllagerArmPose abstractillager$illagerarmpose = renderState.armPose;
 		if (abstractillager$illagerarmpose == Electromancer.IllagerArmPose.ATTACKING) {
-			if (renderState.getMainHandItem().isEmpty()) {
-				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, renderState.attackAnim, renderState.ageInTicks);
+			if (renderState.getMainHandItemStack().isEmpty()) {
+				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, renderState);
 			} else {
 				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, renderState.mainArm, renderState.attackAnim, renderState.ageInTicks);
 			}
@@ -157,7 +158,8 @@ public class NecromancerModel extends EntityModel<NecromancerRenderState> implem
 		return this.head;
 	}
 
-	public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+	@Override
+	public void translateToHand(EntityRenderState renderState, HumanoidArm arm, PoseStack poseStack) {
 		this.getArm(arm).translateAndRotate(poseStack);
 	}
 }

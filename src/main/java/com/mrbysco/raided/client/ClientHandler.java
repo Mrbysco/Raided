@@ -16,17 +16,17 @@ import com.mrbysco.raided.client.renderer.SavagerRenderer;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class ClientHandler {
-	public static final ModelLayerLocation INQUISITOR = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "inquisitor"), "main");
-	public static final ModelLayerLocation INCINERATOR = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "incinerator"), "main");
-	public static final ModelLayerLocation SAVAGER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "savager"), "main");
-	public static final ModelLayerLocation NECROMANCER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "necromancer"), "main");
-	public static final ModelLayerLocation ELECTROMANCER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "electromancer"), "main");
+	public static final ModelLayerLocation INQUISITOR = new ModelLayerLocation(Raided.modLoc("inquisitor"), "main");
+	public static final ModelLayerLocation INCINERATOR = new ModelLayerLocation(Raided.modLoc("incinerator"), "main");
+	public static final ModelLayerLocation SAVAGER = new ModelLayerLocation(Raided.modLoc("savager"), "main");
+	public static final ModelLayerLocation NECROMANCER = new ModelLayerLocation(Raided.modLoc("necromancer"), "main");
+	public static final ModelLayerLocation ELECTROMANCER = new ModelLayerLocation(Raided.modLoc("electromancer"), "main");
 
-	public static final ModelLayerLocation LIGHTNING_PROJECTILE = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Raided.MOD_ID, "lightning_projectile"), "main");
+	public static final ModelLayerLocation LIGHTNING_PROJECTILE = new ModelLayerLocation(Raided.modLoc("lightning_projectile"), "main");
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(RaidedRegistry.INQUISITOR.getEntityType(), InquisitorRenderer::new);
