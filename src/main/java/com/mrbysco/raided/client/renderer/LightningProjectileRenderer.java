@@ -10,9 +10,7 @@ import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
@@ -20,7 +18,6 @@ import net.minecraft.util.Mth;
 
 public class LightningProjectileRenderer extends EntityRenderer<LightningProjectile, LightningProjectileRenderState> {
 	private static final Identifier TEXTURE_LOCATION = Raided.modLoc("textures/entity/projectile/lightning.png");
-	private static final RenderType RENDER_TYPE = RenderTypes.entityTranslucent(TEXTURE_LOCATION);
 	private final LightningProjectileModel model;
 
 	public LightningProjectileRenderer(EntityRendererProvider.Context context) {
