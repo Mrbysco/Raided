@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "raided:item/necromancer_spawn_egg"
+  }
+}

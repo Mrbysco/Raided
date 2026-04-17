@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "raided:item/incinerator_spawn_egg"
+  }
+}
