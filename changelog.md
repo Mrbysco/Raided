@@ -1,1 +1,1 @@
-* Update the spawn egg textures thanks to [L2](https://bsky.app/profile/did:plc:crhlcddeqrdrzcolz4l76crt)
+* Update to 26.1.2
