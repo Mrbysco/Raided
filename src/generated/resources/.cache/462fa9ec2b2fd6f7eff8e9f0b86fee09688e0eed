@@ -1,6 +1,11 @@
-// 1.21.11	2026-03-17T22:32:49.9582406	Model Definitions - raided
-7ecba2efd12f4c96395f1c152a2efcc0f3898239 assets/raided/items/electromancer_spawn_egg.json
-7ecba2efd12f4c96395f1c152a2efcc0f3898239 assets/raided/items/incinerator_spawn_egg.json
-7ecba2efd12f4c96395f1c152a2efcc0f3898239 assets/raided/items/inquisitor_spawn_egg.json
-7ecba2efd12f4c96395f1c152a2efcc0f3898239 assets/raided/items/necromancer_spawn_egg.json
-7ecba2efd12f4c96395f1c152a2efcc0f3898239 assets/raided/items/savager_spawn_egg.json
+// 1.21.11	2026-04-17T20:55:56.4269297	Model Definitions - raided
+8374e0e401192c7c3246d89ac7f582dd40a030b2 assets/raided/items/electromancer_spawn_egg.json
+23bebaec2034dfd515388ef9dceaa1f60cfa0ce7 assets/raided/items/incinerator_spawn_egg.json
+88957c20af0d55eaa0991d3231d52c1ee93d5ffb assets/raided/items/inquisitor_spawn_egg.json
+0aa2d6e6de63d88109b0d6145230f2fef0fe01ae assets/raided/items/necromancer_spawn_egg.json
+30a406bc5f4d6a7ce8f8ba19b8138f55b58b7a12 assets/raided/items/savager_spawn_egg.json
+864dc0fd5c8b9860f4f6159dc22f0a5033a75aa6 assets/raided/models/item/electromancer_spawn_egg.json
+3d37d70260efc10f564025106c30c8e5efa6800a assets/raided/models/item/incinerator_spawn_egg.json
+8aea47ebd91fca35d5c4b87a5074ba38d9777ea8 assets/raided/models/item/inquisitor_spawn_egg.json
+995ee01dde3ed0922f6a4c0926a55591fe71008a assets/raided/models/item/necromancer_spawn_egg.json
+1e5d5ab5062ffab4bb2cd21a14a3fdcce0f3a4a2 assets/raided/models/item/savager_spawn_egg.json
