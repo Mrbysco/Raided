@@ -1,1 +1,1 @@
-* Update to 1.21.11
+* Update the spawn egg textures thanks to [L2](https://bsky.app/profile/did:plc:crhlcddeqrdrzcolz4l76crt)
