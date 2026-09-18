@@ -34,14 +34,16 @@ public class LightningProjectileRenderer extends EntityRenderer<LightningProject
 		poseStack.pushPose();
 		float f = renderState.ageInTicks;
 		poseStack.translate(0.0F, 0.15F, 0.0F);
-		poseStack.mulPose(Axis.YP.rotationDegrees(Mth.sin(f * 0.1F) * 180.0F));
-		poseStack.mulPose(Axis.XP.rotationDegrees(Mth.cos(f * 0.1F) * 180.0F));
-		poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.sin(f * 0.15F) * 360.0F));
+		poseStack.rotateDegrees(Axis.YP, Mth.sin(f * 0.1F) * 180.0F);
+		poseStack.rotateDegrees(Axis.XP, Mth.cos(f * 0.1F) * 180.0F);
+		poseStack.rotateDegrees(Axis.ZP, Mth.sin(f * 0.15F) * 360.0F);
 		poseStack.scale(-0.5F, -0.5F, 0.5F);
 		this.model.setupAnim(renderState);
-		nodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE_LOCATION), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null);
+		nodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE_LOCATION),
+				renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1);
 		poseStack.scale(1.5F, 1.5F, 1.5F);
-		nodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE_LOCATION), renderState.lightCoords, OverlayTexture.NO_OVERLAY, 654311423, null);
+		nodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE_LOCATION),
+				renderState.lightCoords, OverlayTexture.NO_OVERLAY, 654311423);
 
 		poseStack.popPose();
 		super.submit(renderState, poseStack, nodeCollector, cameraRenderState);

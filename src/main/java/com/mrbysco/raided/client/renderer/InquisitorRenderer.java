@@ -42,7 +42,7 @@ public class InquisitorRenderer extends MobRenderer<Inquisitor, InquisitorRender
 				? CrossbowItem.getChargeDuration(inquisitor.getUseItem(), inquisitor)
 				: 0;
 		renderState.ticksUsingItem = inquisitor.getTicksUsingItem();
-		renderState.attackAnim = inquisitor.getAttackAnim(partialTick);
+		renderState.swingAnimation = inquisitor.getSwingAnimation(partialTick);
 		renderState.isAggressive = inquisitor.isAggressive();
 		renderState.inquisitorType = inquisitor.getInquisitorType();
 	}

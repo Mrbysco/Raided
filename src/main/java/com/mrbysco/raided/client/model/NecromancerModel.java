@@ -113,7 +113,7 @@ public class NecromancerModel extends EntityModel<NecromancerRenderState> implem
 			if (renderState.getMainHandItemStack().isEmpty()) {
 				AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, renderState);
 			} else {
-				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, renderState.mainArm, renderState.attackAnim, renderState.ageInTicks);
+				AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, renderState.mainArm, renderState.swingAnimation, renderState.ageInTicks);
 			}
 		} else if (abstractillager$illagerarmpose == AbstractIllager.IllagerArmPose.SPELLCASTING) {
 			this.rightArm.z = 0.0F;

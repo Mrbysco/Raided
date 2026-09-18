@@ -37,7 +37,7 @@ public class NecromancerRenderer extends MobRenderer<Necromancer, NecromancerRen
 				? CrossbowItem.getChargeDuration(necromancer.getUseItem(), necromancer)
 				: 0;
 		renderState.ticksUsingItem = necromancer.getTicksUsingItem();
-		renderState.attackAnim = necromancer.getAttackAnim(partialTick);
+		renderState.swingAnimation = necromancer.getSwingAnimation(partialTick);
 		renderState.isAggressive = necromancer.isAggressive();
 	}
 

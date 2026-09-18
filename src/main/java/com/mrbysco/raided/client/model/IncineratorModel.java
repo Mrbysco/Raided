@@ -149,7 +149,7 @@ public class IncineratorModel extends EntityModel<IncineratorRenderState> implem
 			leftArm.zRot = 0.0F;
 			rightArm.zRot = 0.0F;
 
-			if (renderState.attackAnim > -9990.0F) {
+			if (renderState.swingAnimation > -9990.0F) {
 				holdingMelee(renderState);
 			}
 
@@ -204,16 +204,16 @@ public class IncineratorModel extends EntityModel<IncineratorRenderState> implem
 		float f6;
 		float f7;
 
-		f6 = 1.0F - renderState.attackAnim;
+		f6 = 1.0F - renderState.swingAnimation;
 		f6 *= f6;
 		f6 *= f6;
 		f6 = 1.0F - f6;
 		f7 = Mth.sin(f6 * (float) Math.PI);
-		float f8 = Mth.sin(renderState.attackAnim * (float) Math.PI) * -(head.xRot - 0.7F) * 0.75F;
+		float f8 = Mth.sin(renderState.swingAnimation * (float) Math.PI) * -(head.xRot - 0.7F) * 0.75F;
 
 		leftArm.xRot = (float) ((double) leftArm.xRot - ((double) f7 * 1.2D + (double) f8));
 		leftArm.xRot += (body.yRot * 2.0F);
-		leftArm.zRot = (Mth.sin(renderState.attackAnim * (float) Math.PI) * -0.4F);
+		leftArm.zRot = (Mth.sin(renderState.swingAnimation * (float) Math.PI) * -0.4F);
 	}
 
 	private void animationThrow() {

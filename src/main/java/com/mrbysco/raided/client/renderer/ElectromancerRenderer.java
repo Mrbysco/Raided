@@ -37,7 +37,7 @@ public class ElectromancerRenderer extends MobRenderer<Electromancer, Electroman
 				? CrossbowItem.getChargeDuration(electromancer.getUseItem(), electromancer)
 				: 0;
 		renderState.ticksUsingItem = electromancer.getTicksUsingItem();
-		renderState.attackAnim = electromancer.getAttackAnim(partialTick);
+		renderState.swingAnimation = electromancer.getSwingAnimation(partialTick);
 		renderState.isAggressive = electromancer.isAggressive();
 	}
 

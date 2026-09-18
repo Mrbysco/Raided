@@ -1,34 +1,32 @@
 package com.mrbysco.raided.datagen;
 
+import com.mrbysco.raided.Raided;
 import com.mrbysco.raided.datagen.client.RaidedItemModelsProvider;
 import com.mrbysco.raided.datagen.client.RaidedLanguageProvider;
 import com.mrbysco.raided.datagen.client.RaidedSoundProvider;
 import com.mrbysco.raided.datagen.server.RaidedEntityTypeTagsProvider;
 import com.mrbysco.raided.datagen.server.RaidedLootProvider;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 
 @EventBusSubscriber
 public class RaidedDatagen {
 
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
-		DataGenerator generator = event.getGenerator();
-		PackOutput packOutput = generator.getPackOutput();
-		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+		event.createReloadableRegistryObjects(
+				new RegistrySetBuilder()
+						.add(Registries.LOOT_TABLE, RaidedLootProvider.create()),
+				Set.of(Raided.MOD_ID));
 
-		generator.addProvider(true, new RaidedLootProvider(packOutput, lookupProvider));
-		generator.addProvider(true, new RaidedEntityTypeTagsProvider(packOutput, lookupProvider));
-
-		generator.addProvider(true, new RaidedLanguageProvider(packOutput));
-		generator.addProvider(true, new RaidedItemModelsProvider(packOutput));
-		generator.addProvider(true, new RaidedSoundProvider(packOutput));
-
+		event.createProvider(RaidedEntityTypeTagsProvider::new);
+		event.createProvider(RaidedLanguageProvider::new);
+		event.createProvider(RaidedItemModelsProvider::new);
+		event.createProvider(RaidedSoundProvider::new);
 	}
 }
