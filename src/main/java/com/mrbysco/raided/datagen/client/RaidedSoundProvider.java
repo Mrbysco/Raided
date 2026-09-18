@@ -27,7 +27,7 @@ public class RaidedSoundProvider extends SoundDefinitionsProvider {
 		);
 	}
 
-	private void addHelper(RaidRegHelper helper) {
+	private void addHelper(RaidRegHelper<?> helper) {
 		this.add(helper.getAmbient(), definition()
 				.with(
 						sound(Identifier.withDefaultNamespace("mob/evocation_illager/idle1")),

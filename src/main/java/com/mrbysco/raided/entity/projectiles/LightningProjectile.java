@@ -9,6 +9,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -95,22 +96,22 @@ public class LightningProjectile extends AbstractHurtingProjectile {
 		if (!this.level().isClientSide()) {
 			if (entity instanceof Creeper creeper) {
 				if (creeper.isAlive() && !creeper.isPowered()) {
-					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level());
+					LightningBolt bolt = new LightningBolt(EntityTypes.LIGHTNING_BOLT, this.level());
 					bolt.setDamage(0);
 					creeper.thunderHit((ServerLevel) this.level(), bolt);
 				}
 			} else if (entity instanceof Pig pig) {
 				if (pig.isAlive()) {
-					LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level());
+					LightningBolt bolt = new LightningBolt(EntityTypes.LIGHTNING_BOLT, this.level());
 					bolt.setDamage(0);
 					pig.thunderHit((ServerLevel) this.level(), bolt);
 				}
 			} else if (entity instanceof AbstractVillager abstractVillager && !(abstractVillager instanceof WanderingTrader)) {
 				if (abstractVillager.isAlive()) {
 					ServerLevel level = (ServerLevel) this.level();
-					if (this.level().getDifficulty() != Difficulty.PEACEFUL && EventHooks.canLivingConvert(abstractVillager, EntityType.WITCH, (timer) -> {
+					if (this.level().getDifficulty() != Difficulty.PEACEFUL && EventHooks.canLivingConvert(abstractVillager, EntityTypes.WITCH, (timer) -> {
 					})) {
-						Witch witch = EntityType.WITCH.create(level, EntitySpawnReason.CONVERSION);
+						Witch witch = EntityTypes.WITCH.create(level, EntitySpawnReason.CONVERSION);
 						if (witch == null) return;
 						witch.snapTo(abstractVillager.getX(), abstractVillager.getY(), abstractVillager.getZ(), abstractVillager.getYRot(), abstractVillager.getXRot());
 						EventHooks.finalizeMobSpawn(witch, level, level.getCurrentDifficultyAt(witch.blockPosition()), EntitySpawnReason.CONVERSION, (SpawnGroupData) null);

@@ -1,6 +1,5 @@
 package com.mrbysco.raided;
 
-import com.mrbysco.raided.client.ClientHandler;
 import com.mrbysco.raided.config.RaidedConfig;
 import com.mrbysco.raided.handler.EventHandler;
 import com.mrbysco.raided.registry.RaidedRegistry;
@@ -44,8 +43,6 @@ public class Raided {
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-			eventBus.addListener(ClientHandler::registerEntityRenders);
-			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 		}
 	}
 

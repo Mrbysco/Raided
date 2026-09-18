@@ -18,11 +18,11 @@ public class RaidedEntityTypeTagsProvider extends EntityTypeTagsProvider {
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 		this.tag(EntityTypeTags.RAIDERS).add(
-				RaidedRegistry.INQUISITOR.getEntityType(),
-				RaidedRegistry.INCINERATOR.getEntityType(),
-				RaidedRegistry.SAVAGER.getEntityType(),
-				RaidedRegistry.NECROMANCER.getEntityType(),
-				RaidedRegistry.ELECTROMANCER.getEntityType()
+				RaidedRegistry.INQUISITOR.getEntityType().builtInRegistryHolder().key(),
+				RaidedRegistry.INCINERATOR.getEntityType().builtInRegistryHolder().key(),
+				RaidedRegistry.SAVAGER.getEntityType().builtInRegistryHolder().key(),
+				RaidedRegistry.NECROMANCER.getEntityType().builtInRegistryHolder().key(),
+				RaidedRegistry.ELECTROMANCER.getEntityType().builtInRegistryHolder().key()
 		);
 	}
 }

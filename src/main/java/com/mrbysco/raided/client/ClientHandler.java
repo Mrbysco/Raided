@@ -16,9 +16,12 @@ import com.mrbysco.raided.client.renderer.SavagerRenderer;
 import com.mrbysco.raided.registry.RaidedRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.resources.Identifier;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
+@EventBusSubscriber(Dist.CLIENT)
 public class ClientHandler {
 	public static final ModelLayerLocation INQUISITOR = new ModelLayerLocation(Raided.modLoc("inquisitor"), "main");
 	public static final ModelLayerLocation INCINERATOR = new ModelLayerLocation(Raided.modLoc("incinerator"), "main");
@@ -28,6 +31,7 @@ public class ClientHandler {
 
 	public static final ModelLayerLocation LIGHTNING_PROJECTILE = new ModelLayerLocation(Raided.modLoc("lightning_projectile"), "main");
 
+	@SubscribeEvent
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(RaidedRegistry.INQUISITOR.getEntityType(), InquisitorRenderer::new);
 		event.registerEntityRenderer(RaidedRegistry.INCINERATOR.getEntityType(), IncineratorRenderer::new);
@@ -39,6 +43,7 @@ public class ClientHandler {
 		event.registerEntityRenderer(RaidedRegistry.LIGHTNING_PROJECTILE.get(), LightningProjectileRenderer::new);
 	}
 
+	@SubscribeEvent
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(INQUISITOR, InquisitorModel::createBodyLayer);
 		event.registerLayerDefinition(INCINERATOR, IncineratorModel::createBodyLayer);

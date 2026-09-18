@@ -9,7 +9,6 @@ import com.mrbysco.raided.entity.Savager;
 import com.mrbysco.raided.entity.projectiles.IncineratorFireball;
 import com.mrbysco.raided.entity.projectiles.LightningProjectile;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
