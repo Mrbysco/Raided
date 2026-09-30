@@ -28,7 +28,7 @@ public class Raided {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public Raided(IEventBus eventBus, ModContainer container, Dist dist) {
-		container.registerConfig(ModConfig.Type.COMMON, RaidedConfig.commonSpec);
+		container.registerConfig(ModConfig.Type.LOCAL, RaidedConfig.commonSpec);
 		eventBus.register(RaidedConfig.class);
 
 		eventBus.addListener(this::addTabContents);
